@@ -1,0 +1,71 @@
+<%
+var caramel;
+require('/modules/publisher.js').exec(function(ctx) {
+    caramel = require('caramel');
+    var ui = require('rxt').ui;
+    var asset = require('rxt').asset;
+    var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
+    var options = uriMatcher.match('/{context}/asts/{type}/{pageName}/{+id}')||uriMatcher.match('/{context}/asts/{type}/{pageName}');
+    
+    if(!options){
+        response.sendError(400,'Could not locate an endpoint for your request.Make sure that you provide an id');
+    }
+    else if (!options.id) {
+        response.sendError(400, 'An id must be provided when viewing details of a particular asset');
+    } else {
+        var type = options.type;
+        var am = asset.createUserAssetManager(session, type);
+        var page = ui.buildPage(session, request);
+        var assets = am.get(options.id);
+
+        if (assets == null) {
+            response.sendError(404, 'The asset with id: ' + options.id + ' could not be located.');
+        } else {
+            //print(assets);
+            var output = am.render(assets, page).details();
+
+            var resultCount = output.assets.tables[2].fields.connectorname.value.length;
+            var jsonSchemaObj={};
+
+            for(var i=0; i<resultCount; i++){
+
+                // Create a JSON object out of schema file given
+
+                // Extract Schema file full-path
+                var filePath = output.assets.tables[2].fields.avroschema.value[i];
+                var resultName = output.assets.tables[2].fields.connectorname.value[i]
+                jsonSchemaObj[resultName] = [];
+
+                try{
+                    // Retrieve file from location
+                    jsonObj = get(filePath, '', 'json');
+
+                    // Assumed that fields[0] contains 'in' fields of the result
+                    var fields = jsonObj.data.fields[0].type.fields;
+
+                    for(var field in fields)
+                    {
+                         var name = fields[field].name;
+
+                         // Pushing to array
+                         jsonSchemaObj[resultName].push(name);
+                         //print(name);
+                    }
+                }catch(e){
+                    log.info('A schema file missing in location: ' + filePath);
+                }
+
+            }
+
+            // Append the typeAware json object as a new field
+            output.assets.tables[2].fields.typeAware = jsonSchemaObj;
+
+            // Finally renders output
+            caramel.render(output);
+	
+        }
+
+
+
+    }
+}, request, response, session); %>

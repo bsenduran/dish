@@ -1,0 +1,99 @@
+<div class="asset-being-added">
+</div>
+<div class="asset-thumb-container">
+
+            <!-- List dishes -->
+            <!-- my dishes -->
+            <div class="ctrl-my-dishes">
+            <h3>My Dishes</h3>
+
+
+                {{#if assets}}
+
+
+                <ul class="thumbnails">
+                    {{#each assets}}
+
+
+                    <div class="ctrl-thumb-asset">
+
+                        <div class="my-dish-status">
+                             <small><i class="icon-circle lc-state-{{this.lifecycleState}}" title="{{this.lifecycleState}}"></i></small>
+                        </div>
+
+                        <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}' id='titleText' title="{{this.attributes.overview_name}}">
+                            <div class="lbl-thumb-asset-img">
+                                <img src='{{this.attributes.overview_thumbnail}}' alt="...">
+                            </div>
+                        </a>
+
+                        <div class="lbl-thumb-asset-title">
+                            <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}' id='titleText' title="{{this.attributes.overview_name}}">
+                            <span>
+                                    <script>
+                                        var str = "{{this.attributes.overview_name}}";
+                                        if(str.length>30)
+                                         {
+                                            str = str.substring(0, 40) + '...';
+                                         }
+                                         else{
+                                            str += '<br/>';
+                                         }
+                                        document.write(str);
+                                    </script>
+
+                            </span>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    {{/each}}
+                {{else}}
+                    <div class="no-dishes">
+                        <p>You have no dishes in your Cafe. Create your own dish by going to the <a href="/publisher/../store">Recipe store</a> and selecting a Recipe.</p>
+
+                    </div>
+
+                {{/if}}
+            </div>
+            <!-- my dishes -->
+
+
+            <div class="hr-sep-2"></div>
+
+
+            <!-- Listing connections -->
+            <div class="ctrl-my-connections">
+            <h3>My Connections</h3>
+
+
+
+            {{#if connectionAssets}}
+            <ul class="thumbnails">
+
+                {{#each connectionAssets}}
+                <li>
+                    <div class="ctrl-my-connection">
+                        <a href='{{url ""}}/asts/connection/details/{{this.id}}' id='titleText' title="{{this.attributes.overview_displayname}}">
+                            <div class="my-connection-icon"><img src='{{url ""}}/storage/connection/{{id}}/{{this.attributes.images_thumbnail}}' alt="..."></div>
+                        {{this.attributes.overview_namex}}
+                        </a>
+                    </div>
+                </li>
+                {{/each}}
+
+            </ul>
+            {{/if}}
+            </div>
+
+
+
+
+
+
+
+
+<br class="c-both" />
+</div>
+

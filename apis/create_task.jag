@@ -1,0 +1,185 @@
+<%
+var caramel;
+require('/modules/publisher.js').exec(function (ctx) {
+    caramel = require('caramel');
+    var admin_tasks = require('/extensions/assets/dish/modules/admin_tasks.js').tasks;
+    var ui = require('rxt').ui;
+    var asset = require('rxt').asset;
+    var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
+    var options = uriMatcher.match('/{context}/asts/{type}/apis/{pageName}');
+    var query = request.getQueryString();
+
+
+    var assetId = query.split("=")[1];
+
+    var log = new Log();
+log.info("=================================="+ assetId);
+
+//=================================================================================================
+
+
+
+    if (!options) {
+        response.sendError(400, 'Could not locate an endpoint for your request.Make sure that you provide an id');
+    }
+    else if (assetId) {
+        response.sendError(400, 'An id must be provided when viewing details of a particular asset');
+    } else {
+        var type = request.getParameter("type");
+
+        var am = asset.createUserAssetManager(session, type);
+        var assets = am.get(assetId);
+
+        if (assets == null) {
+            response.sendError(404, 'The asset with id: ' + assetId + ' could not be located.');
+        } else {
+
+            var dish_name = assets.attributes.overview_name;
+            var recipe_name = assets.attributes.overview_recipename;
+            var trigger_interval = assets.attributes.overview_triggerinterval;
+            var trigger_count = assets.attributes.overview_triggercount;
+
+
+            var ingredients = assets.attributes.ingredient_connectorname;
+            var results = assets.attributes.result_connectorname;
+
+            var ingredient_parametersname = assets.attributes.ingredient_parametersname;
+            var ingredient_parameter_value = assets.attributes.ingredient_parametersvalue;
+
+            var result_parametersname = assets.attributes.result_parametersname;
+            var result_parameter_value = assets.attributes.result_parametersvalue;
+
+            var ingredient_account = assets.attributes.ingredient_account;
+            var result_account = assets.attributes.result_account;
+
+            // Generic function to get relevant text value for xml tag
+            var getString = function(paramValue){
+                var length = paramValue.length;
+
+                // Modify only type-aware places, Note: Still support single type-aware cases
+                if(paramValue.charAt(0) == '{' && paramValue.charAt(length-1) == '}'){
+                    paramValue = '$ctx:' + paramValue.substring(1, length - 1);
+                }
+
+                return paramValue;
+            };
+
+
+            var getXMLContent = function (connectors, connectors_param, connector_param_val) {
+                var content = "";
+                if (connectors instanceof Array) {
+                    for (var i in connectors) {
+
+                        var param_names = connectors_param[i].split(',');
+                        var param_values = connector_param_val[i].split('\\|');
+
+                        for (var j in param_names) {
+                            var connDotPar = connectors[i].trim() + "." + param_names[j].trim();
+                            content += "<" + connDotPar + ">" + getString(param_values[j]) + "<\/" + connDotPar + ">";
+                        }
+                    }
+                }
+                else {
+                    var param_names = connectors_param.split(',');
+                    var param_values = connector_param_val.split('|');
+
+
+                    for (var j in param_names) {
+                        var connDotPar = connectors.trim() + "." + param_names[j].trim();
+                        content += "<" + connDotPar + ">" + getString(param_values[j]) + "<\/" + connDotPar + ">";
+                    }
+
+                }
+                return content;
+
+            };
+
+            var dataStore = new MetadataStore("admin", "admin");
+            var accountContent;
+
+
+            var getAuthDetail = function (connectors, account) {
+                var authContent = "";
+                if (connectors instanceof Array) {
+                    for (var i in connectors) {
+                        var path = "connections/" + connectors[i].trim() + "/accounts";
+                        var res;
+                        res = dataStore.get(path);
+                        accountContent = parse(res.content);
+
+                        for (var j in accountContent) {
+                            if (j == account[i]) {
+
+                                var authDetail = accountContent[j];
+                                for (var auth in authDetail) {
+                                    var nodeName = connectors[i] + "." + auth;
+                                    var authElem = "<" + nodeName + ">" + authDetail[auth] + "<\/" + nodeName + ">";
+                                    authContent += authElem;
+                                }
+
+                            }
+                        }
+                    }
+                } else {
+                    var path = "connections/" + connectors.trim() + "/accounts";
+                    var res;
+                    res = dataStore.get(path);
+                    accountContent = parse(res.content);
+                    for (var j in accountContent) {
+                        if (j == account) {
+
+                            var authDetail = accountContent[j];
+                            for (var auth in authDetail) {
+                                var nodeName = connectors + "." + auth;
+                                var authElem = "<" + nodeName + ">" + authDetail[auth] + "<\/" + nodeName + ">";
+                                authContent += authElem;
+                            }
+
+                        }
+                    }
+                }
+
+                return authContent;
+            };
+
+
+            var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.RecipeMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
+                    '<trigger count="'+trigger_count+'" interval="' + trigger_interval + '"/>' +
+                    '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="recipeParams">' +
+                    '<dish.property.root xmlns="">';
+
+            var task_root_closing = '</dish.property.root>' +
+                    '</property>' +
+                    '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="recipeKey" value="gov:/recipeTemplates/' + recipe_name + '_template"/>' +
+                    '</task>';
+
+            var task_content = task_root_node +
+                    getAuthDetail(ingredients, ingredient_account) +
+                    getXMLContent(ingredients, ingredient_parametersname, ingredient_parameter_value) +
+                    getAuthDetail(results, result_account) +
+                    getXMLContent(results, result_parametersname, result_parameter_value) +
+                    task_root_closing;
+
+
+
+            log.info("about to deploy");
+            log.info(task_content);
+
+
+            admin_tasks.deployTemplate(recipe_name, assets.attributes.overview_url);
+            admin_tasks.deployTransform(recipe_name, assets.attributes.overview_url);
+            admin_tasks.deployTask(task_content);
+
+        }
+    }
+
+
+
+
+
+
+//=================================================================================================
+
+
+        response.sendRedirect('/publisher/asts/dish/dashboard');
+}, request, response, session); %>

@@ -1,0 +1,90 @@
+<%
+var caramel;
+require('/modules/publisher.js').exec(function(ctx) {
+    caramel = require('caramel');
+    var ui = require('rxt').ui;
+    var asset = require('rxt').asset;
+    var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
+    var options = uriMatcher.match('/{context}/asts/{type}/{pageName}/{+id}')||uriMatcher.match('/{context}/asts/{type}/{pageName}');
+
+    if(!options){
+        response.sendError(400,'Could not locate an endpoint for your request.Make sure that you provide an id');
+    }
+    else if (!options.id) {
+        response.sendError(400, 'An id must be provided when viewing details of a particular asset');
+    } else {
+        var type = options.type;
+        var am = asset.createUserAssetManager(session, type);
+        var page = ui.buildPage(session, request);
+        var assets = am.get(options.id);
+
+        // Set current recipe URI in session
+        session.put("return_recipe_uri", request.getRequestURI());
+
+        // Check for item, name and value and submit a POST to api
+        var id  = request.getParameter("id");
+        var value = request.getParameter("value");
+
+        if(id != null && value != null){
+
+        }
+
+        var connection_am = asset.createUserAssetManager(ctx.session, "connection");
+        connection_am.search();
+        var con_list = connection_am.list();
+        var con_mapping_json ={};
+
+        for (var con in con_list) {
+            if (con_list.hasOwnProperty(con)) {
+                con_mapping_json[con_list[con].attributes.overview_name] = con_list[con].id;
+            }
+            else {
+                //todo : what to do
+            }
+        }
+        var connections = con_mapping_json;
+
+        var ing_con_name = assets.attributes.ingredient_connectorname;
+        var ing_con_ids = [];
+        var res_con_name = assets.attributes.result_connectorname;
+        var res_con_ids = [];
+
+        if (ing_con_name instanceof Array) {
+            for (var c in ing_con_name) {
+                for (var key in connections) {
+                    if (ing_con_name[c] == key) {
+                        ing_con_ids.push(connections[key]);
+                    }
+                }
+            }
+        } else {
+            ing_con_ids.push(connections[ing_con_name]);
+        }
+
+        if (res_con_name instanceof Array) {
+            for (var c in res_con_name) {
+                for (var key in connections) {
+                    if (res_con_name[c] == key) {
+                        res_con_ids.push(connections[key]);
+                    }
+                }
+            }
+        } else {
+            res_con_ids.push(connections[res_con_name]);
+        }
+
+        // Finally render
+        if (assets == null) {
+            response.sendError(404, 'The asset with id: ' + options.id + ' could not be located.');
+        } else {
+            //print(assets);
+            var output = am.render(assets, page).details();
+
+            output.assets.tables[1].fields.connectionids = ing_con_ids;
+            output.assets.tables[2].fields.connectionids = res_con_ids;
+//print(output.rxt);
+            caramel.render(output);
+
+        }
+    }
+}, request, response, session); %>

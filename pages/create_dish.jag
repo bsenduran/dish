@@ -1,0 +1,96 @@
+<%
+var caramel;
+require('/modules/publisher.js').exec(function (ctx) {
+    caramel = require('caramel');
+    var log = new Log();
+    var reqUtil = require('utils').request;
+    var xmlUtil = require('utils').xml;
+    var asset = require('rxt').asset;
+
+    var options = reqUtil.getQueryOptions(ctx.request.getQueryString());
+
+    var url = options.resources;
+    var endOfUrl = url.slice(-1);
+
+    if (endOfUrl != "/") {
+        url += "/";
+    }
+    var descriptorData = get(url + 'descriptor.xml');
+
+    var descriptorXML = new XML(descriptorData.data);
+
+    var read_descriptor = function (connector, attribute) {
+        var textJson = "[";
+        for (var ii = 0; ii < connector.length(); ii++) {
+            textJson += "\"" + connector[ii][attribute].text() + "\",";
+        }
+        textJson = textJson.substring(0, textJson.length - 1);
+        return JSON.parse(textJson + ']');
+    };
+
+    var fill_with_url = function (connector, attribute) {
+        var textJson = "[";
+        for (var ii = 0; ii < connector.length(); ii++) {
+            textJson += "\"" + url + connector[ii][attribute].text() + "\",";
+        }
+        textJson = textJson.substring(0, textJson.length - 1);
+        return JSON.parse(textJson + ']');
+    };
+
+    var splittedURL = url.split('/');
+    var splittedLen = splittedURL.length;
+    log.info([splittedLen - 2]);//todo: fixing for localhost and git (any) url pattern
+    var recipeName = splittedURL[splittedLen - 2]; //todo: read this from recipe (add recipe_code in recipe rxt)
+    var randomNumber = ' _ ' + Math.floor((Math.random() * 1000) + 1);
+
+
+    var am = asset.createUserAssetManager(ctx.session, 'dish');
+    var assetInstance = {
+        name: descriptorXML.overview.name.text() + randomNumber,
+
+        attributes: {
+
+            overview_name: descriptorXML.overview.name.text() + randomNumber,
+            overview_version: descriptorXML.overview.version.text(),
+            overview_url: url,
+            overview_recipename: recipeName,
+            overview_description: descriptorXML.overview.description.text(),
+            overview_triggerinterval: "",
+            overview_triggercount : "",
+            overview_thumbnail: url + descriptorXML.overview.thumbnail.text(),
+            overview_banner: url + descriptorXML.overview.banner.text(),
+
+            ingredient_connectordisplayname: read_descriptor(descriptorXML.ingredient, "connectordisplayname"),
+            ingredient_connectorname: read_descriptor(descriptorXML.ingredient, "connectorname"),
+            ingredient_account: [],
+            ingredient_operation: read_descriptor(descriptorXML.ingredient, "operation"),
+            ingredient_icon: fill_with_url(descriptorXML.ingredient, "icon"),
+            ingredient_parametersdisplayname: read_descriptor(descriptorXML.ingredient, "parametersdisplayname"),
+            ingredient_parametersname: read_descriptor(descriptorXML.ingredient, "parametersname"),
+            ingredient_parameterseg: read_descriptor(descriptorXML.ingredient, "parameterseg"),
+            ingredient_parametersvalue: [],
+            ingredient_avroschema: fill_with_url(descriptorXML.ingredient, "avroschema"),
+
+            result_connectordisplayname: read_descriptor(descriptorXML.result, "connectordisplayname"),
+            result_connectorname: read_descriptor(descriptorXML.result, "connectorname"),
+            result_account: [],
+            result_operation: read_descriptor(descriptorXML.result, "operation"),
+            result_icon: fill_with_url(descriptorXML.result, "icon"),
+            result_parametersdisplayname: read_descriptor(descriptorXML.result, "parametersdisplayname"),
+            result_parametersname: read_descriptor(descriptorXML.result, "parametersname"),
+            result_parameterseg: read_descriptor(descriptorXML.result, "parameterseg"),
+            result_parametersvalue: [],
+            result_avroschema: fill_with_url(descriptorXML.result, "avroschema")
+
+        }
+    };
+
+    am.create(assetInstance);
+
+    // log.info('id: '+assetInstance.id);
+
+
+    response.sendRedirect('details/' + assetInstance.id);
+
+}, request, response, session);
+%>
