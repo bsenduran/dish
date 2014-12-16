@@ -31,7 +31,7 @@ var tasks = {};
 
         try {
             // Open connection to Resource Admin service - url currently hardcoded
-            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false, USERNAME, PASSWORD);
 
             // Send task.xml
             req.send(payload);
@@ -60,7 +60,7 @@ var tasks = {};
 
         try {
             // Open connection to Resource Admin service - url currently hardcoded
-            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false, USERNAME, PASSWORD);
 
             // Send task.xml
             req.send(payload);
@@ -86,7 +86,7 @@ var tasks = {};
 
         try {
             // Open connection to Task Admin service - url currently hardcoded
-            req.open(options, ADMIN_SERVICE_URL + "/TaskAdmin", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/TaskAdmin", false, USERNAME, PASSWORD);
 
             // Send task.xml
             req.send('<ns1:addTaskDescription xmlns:ns1="http://org.apache.axis2/xsd">' + xmlTaskData + '</ns1:addTaskDescription>');
@@ -112,7 +112,7 @@ var tasks = {};
             '</adm:isESBTaskRunning>';
 
         try {
-            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD);
             req.send(payload);
 
 
@@ -142,7 +142,7 @@ var tasks = {};
             '</adm:pauseESBTask>';
 
         try {
-            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD);
             req.send(payload);
 
 
@@ -173,7 +173,7 @@ var tasks = {};
             '</adm:resumeESBTask>';
 
         try {
-            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD);
             req.send(payload);
 
 
@@ -203,7 +203,7 @@ var tasks = {};
             '</adm:deleteESBTask>';
 
         try {
-            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false, USERNAME, PASSWORD);
             req.send(payload);
 
 
@@ -232,7 +232,7 @@ var tasks = {};
                     '</xsd:deleteTaskDescription>';
 
         try {
-            req.open(options, ADMIN_SERVICE_URL + "/TaskAdmin", false, USERNAME, PASSWORD); // URI with offset=2 in ESB//
+            req.open(options, ADMIN_SERVICE_URL + "/TaskAdmin", false, USERNAME, PASSWORD);
             req.send(payload);
 
         }

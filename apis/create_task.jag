@@ -2,6 +2,7 @@
 var caramel;
 require('/modules/publisher.js').exec(function (ctx) {
     caramel = require('caramel');
+    var carbon = require('carbon');
     var admin_tasks = require('/extensions/assets/dish/modules/admin_tasks.js').tasks;
     var ui = require('rxt').ui;
     var asset = require('rxt').asset;
@@ -9,27 +10,28 @@ require('/modules/publisher.js').exec(function (ctx) {
     var options = uriMatcher.match('/{context}/asts/{type}/apis/{pageName}');
     var query = request.getQueryString();
 
+    var type = options.type;
 
     var assetId = query.split("=")[1];
 
     var log = new Log();
-log.info("=================================="+ assetId);
+    log.info("==================================" + assetId);
+
 
 //=================================================================================================
-
 
 
     if (!options) {
         response.sendError(400, 'Could not locate an endpoint for your request.Make sure that you provide an id');
     }
-    else if (assetId) {
+    else if (!assetId) {
         response.sendError(400, 'An id must be provided when viewing details of a particular asset');
     } else {
-        var type = request.getParameter("type");
 
+        // var type = request.getParameter("type");
         var am = asset.createUserAssetManager(session, type);
-        var assets = am.get(assetId);
 
+        var assets = am.get(assetId);
         if (assets == null) {
             response.sendError(404, 'The asset with id: ' + assetId + ' could not be located.');
         } else {
@@ -53,11 +55,11 @@ log.info("=================================="+ assetId);
             var result_account = assets.attributes.result_account;
 
             // Generic function to get relevant text value for xml tag
-            var getString = function(paramValue){
+            var getString = function (paramValue) {
                 var length = paramValue.length;
 
                 // Modify only type-aware places, Note: Still support single type-aware cases
-                if(paramValue.charAt(0) == '{' && paramValue.charAt(length-1) == '}'){
+                if (paramValue.charAt(0) == '{' && paramValue.charAt(length - 1) == '}') {
                     paramValue = '$ctx:' + paramValue.substring(1, length - 1);
                 }
 
@@ -94,7 +96,9 @@ log.info("=================================="+ assetId);
 
             };
 
-            var dataStore = new MetadataStore("admin", "admin");
+            var server = new carbon.server.Server(url);
+            var regOptions = {system: true,  domain: carbon.server.tenantDomain() , tenantId: carbon.server.tenantId()};
+            var dataStore = new carbon.registry.Registry(server, regOptions);
             var accountContent;
 
 
@@ -102,7 +106,7 @@ log.info("=================================="+ assetId);
                 var authContent = "";
                 if (connectors instanceof Array) {
                     for (var i in connectors) {
-                        var path = "connections/" + connectors[i].trim() + "/accounts";
+                        var path = "/_system/governance/connections/" + connectors[i].trim() + "/accounts";
                         var res;
                         res = dataStore.get(path);
                         accountContent = parse(res.content);
@@ -121,7 +125,7 @@ log.info("=================================="+ assetId);
                         }
                     }
                 } else {
-                    var path = "connections/" + connectors.trim() + "/accounts";
+                    var path = "/_system/governance/connections//" + connectors.trim() + "/accounts";
                     var res;
                     res = dataStore.get(path);
                     accountContent = parse(res.content);
@@ -144,7 +148,7 @@ log.info("=================================="+ assetId);
 
 
             var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.RecipeMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
-                    '<trigger count="'+trigger_count+'" interval="' + trigger_interval + '"/>' +
+                    '<trigger count="' + trigger_count + '" interval="' + trigger_interval + '"/>' +
                     '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="recipeParams">' +
                     '<dish.property.root xmlns="">';
 
@@ -161,7 +165,6 @@ log.info("=================================="+ assetId);
                     task_root_closing;
 
 
-
             log.info("about to deploy");
             log.info(task_content);
 
@@ -174,12 +177,8 @@ log.info("=================================="+ assetId);
     }
 
 
-
-
-
-
 //=================================================================================================
 
 
-        response.sendRedirect('/publisher/asts/dish/dashboard');
+    response.sendRedirect('/publisher/asts/dish/dashboard');
 }, request, response, session); %>
