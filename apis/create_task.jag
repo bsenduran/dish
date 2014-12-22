@@ -3,6 +3,8 @@ var caramel;
 require('/modules/publisher.js').exec(function (ctx) {
     caramel = require('caramel');
     var carbon = require('carbon');
+    var process = require('process');
+    var httpsPort = process.getProperty('https.port');
     var admin_tasks = require('/extensions/assets/dish/modules/admin_tasks.js').tasks;
     var ui = require('rxt').ui;
     var asset = require('rxt').asset;
@@ -96,6 +98,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
             };
 
+            var url = 'https://localhost:'+httpsPort+'/admin/services/';
             var server = new carbon.server.Server(url);
             var regOptions = {system: true,  domain: carbon.server.tenantDomain() , tenantId: carbon.server.tenantId()};
             var dataStore = new carbon.registry.Registry(server, regOptions);
@@ -109,7 +112,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                         var path = "/_system/governance/connections/" + connectors[i].trim() + "/accounts";
                         var res;
                         res = dataStore.get(path);
-                        accountContent = parse(res.content);
+                        accountContent = parse(res.content+'');
 
                         for (var j in accountContent) {
                             if (j == account[i]) {
@@ -125,10 +128,10 @@ require('/modules/publisher.js').exec(function (ctx) {
                         }
                     }
                 } else {
-                    var path = "/_system/governance/connections//" + connectors.trim() + "/accounts";
+                    var path = "/_system/governance/connections/" + connectors.trim() + "/accounts";
                     var res;
                     res = dataStore.get(path);
-                    accountContent = parse(res.content);
+                    accountContent = parse(res.content+'');
                     for (var j in accountContent) {
                         if (j == account) {
 

@@ -191,6 +191,8 @@ var tasks = {};
 
     };
 
+    //this is not used since the task group name is being converted while processing in ESB,
+    // using deleteTaskDescription from TaskAdmin instead
     admin_task.deleteTask = function(task_name) {
 
         var response;
