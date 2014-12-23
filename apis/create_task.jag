@@ -62,7 +62,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 // Modify only type-aware places, Note: Still support single type-aware cases
                 if (paramValue.charAt(0) == '{' && paramValue.charAt(length - 1) == '}') {
-                    paramValue = '$ctx:' + paramValue.substring(1, length - 1);
+                    paramValue = '{$body//' + paramValue.substring(1, length - 1) + '/text()}';
                 }
 
                 return paramValue;
