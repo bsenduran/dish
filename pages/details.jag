@@ -51,6 +51,10 @@ require('/modules/publisher.js').exec(function(ctx) {
 
         if (ing_con_name instanceof Array) {
             for (var c in ing_con_name) {
+
+                // Check existence of 'c' by searching
+                isExists(ctx, ing_con_name[c]);
+
                 for (var key in connections) {
                     if (ing_con_name[c] == key) {
                         ing_con_ids.push(connections[key]);
@@ -58,11 +62,18 @@ require('/modules/publisher.js').exec(function(ctx) {
                 }
             }
         } else {
+            // Check existence of 'ing_con_name' by searching
+            isExists(ctx, ing_con_name);
+
             ing_con_ids.push(connections[ing_con_name]);
         }
 
         if (res_con_name instanceof Array) {
             for (var c in res_con_name) {
+
+                // Check existence of 'c' by searching
+                isExists(ctx, res_con_name[c]);
+
                 for (var key in connections) {
                     if (res_con_name[c] == key) {
                         res_con_ids.push(connections[key]);
@@ -70,6 +81,9 @@ require('/modules/publisher.js').exec(function(ctx) {
                 }
             }
         } else {
+            // Check existence of 'res_con_name' by searching
+            isExists(ctx, res_con_name);
+
             res_con_ids.push(connections[res_con_name]);
         }
 
@@ -87,4 +101,37 @@ require('/modules/publisher.js').exec(function(ctx) {
 
         }
     }
-}, request, response, session); %>
+}, request, response, session);
+
+function isExists(ctx, c) {
+    var connection_am = asset.createUserAssetManager(ctx.session, "connection");
+    connection_am.search();
+    var con_list = connection_am.list();
+
+    // Search for existing connection
+    for (var con in con_list) {
+        // Has property and the matching connection found
+        if (con_list.hasOwnProperty(con)) {
+            //log.info('overview name: ' + con_list[con].attributes.overview_name);
+            //log.info('c value: ' + c);
+            //log.info ('list value: ' + stringify(con_list));
+            if (con_list[con].attributes.overview_name == c) {
+                //log.info('FOUND: ' + con_list[con].attributes.overview_name);
+                return;
+            }
+        }
+
+    }
+
+    // Create a new Connection artifact by accessing the remote location
+
+    // 'c' contains connection name
+    var fetchingPath = 'https://raw.githubusercontent.com/bsenduran/recipes/master/connections/' + c + '/1.0.0';
+    var connectionJson = get(fetchingPath, '', 'json');
+    var assetInstance = connectionJson.data;
+    connection_am.create(assetInstance);
+
+}
+
+
+%>
