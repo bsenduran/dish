@@ -62,7 +62,24 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 // Modify only type-aware places, Note: Still support single type-aware cases
                 if (paramValue.charAt(0) == '{' && paramValue.charAt(length - 1) == '}') {
-                    paramValue = '{$body//' + paramValue.substring(1, length - 1) + '/text()}';
+                    // Get type value from session
+                    var typeawareType = 'xml';
+
+                    try{
+                        typeawareType = session.get('RESULT_FIELD_TYPE');
+                    }catch(e){
+                        // default value is xml
+                        typeawareType = 'xml'
+                    }
+
+                    // Create parameter value depending on typeaware value
+                    if (typeawareType == 'json'){
+                        paramValue = '{json-eval($.' + paramValue.substring(1, length - 1) + ')}';
+                    }
+                    else{
+                        paramValue = '{$body//' + paramValue.substring(1, length - 1) + '/text()}';
+                    }
+
                 }
 
                 return paramValue;
