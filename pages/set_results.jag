@@ -40,8 +40,21 @@ require('/modules/publisher.js').exec(function(ctx) {
                     // Retrieve file from location
                     jsonObj = get(filePath, '', 'json');
 
-                    // Assumed that fields[0] contains 'in' fields of the result
-                    var fields = jsonObj.data.fields[0].type.fields;
+                   var dataFields = jsonObj.data.fields;
+
+                    var fields;
+
+                    // Search for the field named 'out' 
+                    for(var dataField in dataFields)
+                    {
+                        if (jsonObj.data.fields[dataField].name=='out')
+                        {
+                            fields = jsonObj.data.fields[dataField].type.fields;
+
+                            // Save result field type for deploying phase
+                            session.put('RESULT_FIELD_TYPE', jsonObj.data.fields[dataField].type.type);
+                        }
+                    }
 
                     for(var field in fields)
                     {
