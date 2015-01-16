@@ -15,6 +15,39 @@ var tasks = {};
 
     options.useSOAP = 1.2;
 
+    admin_task.getSAMLResponse = function(){
+        options.action = "urn:login";
+
+        // Need to have SAML_RESPONSE_RECEIVED in session. 
+        // Add line session.put("SAML_RESPONSE_RECEIVED", samlResponse); into controller/acs.jag
+        var payload = '<sso:login xmlns:sso="http://sso.saml2.authenticator.identity.carbon.wso2.org" xmlns:xsd="http://dto.sso.saml2.authenticator.identity.carbon.wso2.org/xsd">'
+                       +'<sso:authDto> <xsd:response>' 
+                       + session.get("SAML_RESPONSE_RECEIVED")
+                       +'</xsd:response> </sso:authDto></sso:login>';
+
+
+        try {
+            // Open connection to SAML2 SSO Authentication Service - url currently hardcoded
+            req.open(options, ADMIN_SERVICE_URL + "/SAML2SSOAuthenticationService", false);//, USERNAME, PASSWORD
+
+            // Send
+            req.send(payload);
+
+            var responseCookies = req.getResponseHeader('Set-Cookie').split(';');
+            log.info(responseCookies[0]);
+
+            // Assumed that JSESSIONID cookie is at the first element
+            options["HTTPHeaders"] = [
+                { name : "Cookie", value : responseCookies[0]}
+            ];
+
+
+        } catch (e) {
+
+            print(e.toString()); // Print error if something goes wrong
+
+        }
+    };
 
     admin_task.deployTemplate = function (recipe_name, url) {
         options.action = "urn:importResource";
@@ -31,7 +64,7 @@ var tasks = {};
 
         try {
             // Open connection to Resource Admin service - url currently hardcoded
-            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false, USERNAME, PASSWORD);
+            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false);
 
             // Send task.xml
             req.send(payload);
@@ -60,7 +93,7 @@ var tasks = {};
 
         try {
             // Open connection to Resource Admin service - url currently hardcoded
-            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false, USERNAME, PASSWORD);
+            req.open(options, ADMIN_SERVICE_URL + "/ResourceAdminService", false);
 
             // Send task.xml
             req.send(payload);
@@ -86,7 +119,7 @@ var tasks = {};
 
         try {
             // Open connection to Task Admin service - url currently hardcoded
-            req.open(options, ADMIN_SERVICE_URL + "/TaskAdmin", false, USERNAME, PASSWORD);
+            req.open(options, ADMIN_SERVICE_URL + "/TaskAdmin", false);
 
             // Send task.xml
             req.send('<ns1:addTaskDescription xmlns:ns1="http://org.apache.axis2/xsd">' + xmlTaskData + '</ns1:addTaskDescription>');
