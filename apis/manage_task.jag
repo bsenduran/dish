@@ -20,9 +20,12 @@ require('/modules/publisher.js').exec(function (ctx) {
 
     if (uriMatcher.match(ACTIVATE_URL)) {
         admin_task.resumeTask(options.dishName);
+        response.sendRedirect('/publisher/asts/dish/control_panel/' + options.id);
+
 
     } else if (uriMatcher.match(DEACTIVATE_URL)) {
-        admin_task.pauseTask(options.dishName)
+        admin_task.pauseTask(options.dishName);
+        response.sendRedirect('/publisher/asts/dish/control_panel/' + options.id);
 
 
     } else if (uriMatcher.match(DELETE_URL)) {
@@ -31,7 +34,6 @@ require('/modules/publisher.js').exec(function (ctx) {
         response.sendRedirect('/publisher/asts/dish/dashboard');
     }
 
-    response.sendRedirect('/publisher/asts/dish/control_panel/' + options.id);
 
 
 }, request, response, session); %>

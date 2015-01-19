@@ -18,14 +18,7 @@ $(function(){
 
 
     $('.add-connection-btn-x').on('click',function(){
-        $('#form-update').ajaxSubmit({
-            success:function(){
-                var options=obtainFormMeta('#form-update');
-            },
-            error:function(){
-                alert('Unable to update the dish');
-            }
-        });
+        $('#form-update').ajaxSubmit();
     });
 
 });
