@@ -189,7 +189,7 @@ require('/modules/publisher.js').exec(function (ctx) {
             log.info(task_content);
 
 
-            admin_tasks.getSAMLResponse();
+            //admin_tasks.getSAMLResponse();
             admin_tasks.deployTemplate(recipe_name, assets.attributes.overview_url);
             admin_tasks.deployTransform(recipe_name, assets.attributes.overview_url);
             admin_tasks.deployTask(task_content);

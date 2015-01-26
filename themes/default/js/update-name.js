@@ -7,7 +7,7 @@ $(function(){
         $('#form-update').ajaxSubmit({
             success:function(){
                 var options=obtainFormMeta('#form-update');
-                alert(options.redirectUrl);
+                alert('Dish will be deployed in a moment');
                 window.location=options.redirectUrl;
             },
             error:function(){
