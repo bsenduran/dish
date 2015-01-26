@@ -148,7 +148,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                     var path = "/_system/governance/connections/" + connectors.trim() + "/accounts";
                     var res;
                     res = dataStore.get(path);
-                    accountContent = parse(res.content+'');
+                    accountContent = JSON.parse(res.content);
                     for (var j in accountContent) {
                         if (j == account) {
 

@@ -16,7 +16,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
 
     log.info("uri template" + ctx.request.getRequestURI());
-    log.info("uri options " + stringify(options));
+    log.info("uri options " + JSON.stringify(options));
 
     if (uriMatcher.match(ACTIVATE_URL)) {
         admin_task.resumeTask(options.dishName);
