@@ -149,11 +149,14 @@ require('/modules/publisher.js').exec(function (ctx) {
                     var res;
                     res = dataStore.get(path);
                     accountContent = JSON.parse(res.content);
+
                     for (var j in accountContent) {
                         if (j == account) {
 
-                            var authDetail = accountContent[j];
+                            var authDetail = JSON.parse(accountContent[j]);
+
                             for (var auth in authDetail) {
+
                                 var nodeName = connectors + "." + auth;
                                 var authElem = "<" + nodeName + ">" + authDetail[auth] + "<\/" + nodeName + ">";
                                 authContent += authElem;
