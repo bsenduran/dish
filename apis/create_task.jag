@@ -119,7 +119,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
             try {
                 var serversConfig = require('/config/wso2-servers.json');
-                esServer = serversConfig.servers.esb_server;
+                esServer = serversConfig.servers.es_server;
 
             } catch (error){
                 log.warn('Falling back to default server : localhost, Make sure to have /publisher/config/wso2-servers.json configured properly');
@@ -131,7 +131,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
             }
 
-            var url = esbServer.host + ":" + esbServer.port +'/admin/services/';
+            var url = esServer.host + ":" + esServer.port +'/admin/services/';
             var server = new carbon.server.Server(url);
             var regOptions = {system: true,  domain: carbon.server.tenantDomain() , tenantId: carbon.server.tenantId()};
             var dataStore = new carbon.registry.Registry(server, regOptions);
