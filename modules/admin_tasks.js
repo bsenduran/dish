@@ -1,9 +1,25 @@
 var tasks = {};
 (function (admin_task) {
     var log = new Log('admin_tasks');
-    log.info('Request received');
+    //log.info('Request received');
 
-    var ADMIN_SERVICE_URL = "https://localhost:9445/services"; // URL to admin services without last '/'
+    var esbServer;
+
+    try {
+        var serversConfig = require('/config/wso2-servers.json');
+        esbServer = serversConfig.servers.esb_server;
+
+    } catch (error){
+        log.warn('Falling back to default server : localhost, Make sure to have /publisher/config/wso2-servers.json configured properly');
+
+        esbServer = {
+            "host": "https://localhost",
+            "port": "9445"
+        };
+
+    }
+//TODO add https
+    var ADMIN_SERVICE_URL = esbServer.host + ":" + esbServer.port + "/services"; // URL to admin services without last '/'
     var USERNAME = "admin";
     var PASSWORD = "admin";
 
