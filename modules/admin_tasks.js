@@ -291,6 +291,34 @@ var tasks = {};
             log.error(e)
         }
 
-    }
+    };
+
+    admin_task.isTaskExist = function(task_name) {
+        var response;
+
+        options.action = "urn:isContains";
+
+        var payload = '<xsd:isContains xmlns:xsd="http://org.apache.axis2/xsd">' +
+                        '<xsd:s>' + task_name + '</xsd:s>' +
+                        '<xsd:group>synapse.simple.quartz</xsd:group>' +
+                        '</xsd:isContains>';
+
+
+        try {
+            req.open(options, ADMIN_SERVICE_URL + "/TaskAdmin", false, USERNAME, PASSWORD);
+            req.send(payload);
+
+            var result = req;
+            var xmlResponse = result.responseXML;
+            response = xmlResponse..*::['return'].text();
+
+        }
+        catch (e) {
+            log.error(e)
+        }
+
+        return response;
+
+    };
 
 }(tasks));

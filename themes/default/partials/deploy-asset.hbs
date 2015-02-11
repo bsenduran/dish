@@ -9,9 +9,15 @@
  <form class="form-horizontal" method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/asts/{{assets.type}}/apis/create_task?id={{assets.id}}'>
         <div class="control-group">
             <label class="control-label" for="dishName">Dish Name</label>
-            <div class="controls">
-                <input type="text" id="dishName" name ="overview_name" value ="{{assets.name}}">
-            </div>
+            {{#if assets.isTaskExist}}
+                <div class="controls">
+                    <input type="text" id="dishName" readonly="readonly" name="overview_name" value="{{assets.name}}">
+                </div>
+            {{else}}
+                <div class="controls">
+                    <input type="text" id="dishName" name="overview_name" value="{{assets.name}}">
+                </div>
+            {{/if}}
         </div>
         <div class="control-group">
             <label class="control-label" for="triggerInterval">Triggering Period (in sec)</label>
@@ -27,7 +33,11 @@
      </div>
         <div class="control-group">
             <div class="controls">
-                <button type="button" class="btn-deploy" id="add-form-btn">Deploy this dish</button>
+                {{#if assets.isTaskExist}}
+                        <button type="button" class="btn-deploy" id="add-form-btn">Redeploy this dish</button>
+                {{else}}
+                        <button type="button" class="btn-deploy" id="add-form-btn">Deploy this dish</button>
+                {{/if}}
             </div>
         </div>
     </form>

@@ -207,6 +207,11 @@ require('/modules/publisher.js').exec(function (ctx) {
             log.info("about to deploy");
             log.info(task_content);
 
+            var isTaskExist = admin_tasks.isTaskExist(dish_name);
+
+            if (isTaskExist == "true") {
+                admin_tasks.deleteTaskDescription(dish_name);
+            }
 
             //admin_tasks.getSAMLResponse();
             admin_tasks.deployTemplate(recipe_name, assets.attributes.overview_url);

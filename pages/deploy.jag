@@ -3,6 +3,7 @@ var caramel;
 require('/modules/publisher.js').exec(function(ctx) {
     caramel = require('caramel');
     var ui = require('rxt').ui;
+    var admin_task = require('/extensions/assets/dish/modules/admin_tasks.js').tasks;
     var asset = require('rxt').asset;
     var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
     var options = uriMatcher.match('/{context}/asts/{type}/{pageName}/{+id}') || uriMatcher.match('/{context}/asts/{type}/{pageName}');
@@ -20,6 +21,9 @@ require('/modules/publisher.js').exec(function(ctx) {
         } else {
             //print(assets);
             var output = am.render(assets, page).lifecycle();
+
+            var isExist = admin_task.isTaskExist(output.assets.name);
+            output.assets.isTaskExist = (isExist == true);
             caramel.render(output);
         }
     }
