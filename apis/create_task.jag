@@ -114,7 +114,7 @@ require('/modules/publisher.js').exec(function (ctx) {
             };
 
             var server = new carbon.server.Server();
-            var regOptions = {system: true,  domain: carbon.server.tenantDomain() , tenantId: carbon.server.tenantId()};
+            var regOptions = {username: user.username,  domain: user.tenantDomain , tenantId: user.tenantId};
             var dataStore = new carbon.registry.Registry(server, regOptions);
             var accountContent;
 
