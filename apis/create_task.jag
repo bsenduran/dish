@@ -194,14 +194,12 @@ require('/modules/publisher.js').exec(function (ctx) {
                 admin_tasks.deleteTaskDescription(dish_name);
             }
 
-            //admin_tasks.getSAMLResponse();
             admin_tasks.deployTemplate(recipe_name, assets.attributes.overview_url);
             admin_tasks.deployTransform(recipe_name, assets.attributes.overview_url);
             admin_tasks.deployTask(task_content);
 
         }
     }
-
 
 //=================================================================================================
 
