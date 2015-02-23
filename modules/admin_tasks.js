@@ -160,11 +160,6 @@ var tasks = {};
 
         options.action = "urn:isESBTaskRunning";
 
-
-
-        log.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ is task running ^^^^^^^^^^^^^^^^^^^^^^^");
-        log.info(options["HTTPHeaders"]);
-
         var payload = '<adm:isESBTaskRunning xmlns:adm="http://admin.core.ntaskint.carbon.wso2.org">' +
             '<adm:taskName>' + task_name + '</adm:taskName>' +
             '</adm:isESBTaskRunning>';

@@ -114,7 +114,7 @@ require('/modules/publisher.js').exec(function (ctx) {
             };
 
             var server = new carbon.server.Server();
-            var regOptions = {system: true,  domain: carbon.server.tenantDomain() , tenantId: carbon.server.tenantId()};
+            var regOptions = {username: user.username,  domain: user.tenantDomain , tenantId: user.tenantId};
             var dataStore = new carbon.registry.Registry(server, regOptions);
             var accountContent;
 
@@ -167,14 +167,14 @@ require('/modules/publisher.js').exec(function (ctx) {
             };
 
 
-            var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.RecipeMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
+            var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.TemplateMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
                     '<trigger count="' + trigger_count + '" interval="' + trigger_interval + '"/>' +
-                    '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="recipeParams">' +
+                    '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="templateParams">' +
                     '<dish.property.root xmlns="">';
 
             var task_root_closing = '</dish.property.root>' +
                     '</property>' +
-                    '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="recipeKey" value="gov:/recipeTemplates/' + recipe_name + '_template"/>' +
+                    '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="templateKey" value="gov:/recipeTemplates/' + recipe_name + '_template"/>' +
                     '</task>';
 
             var task_content = task_root_node +
