@@ -29,43 +29,16 @@ var tasks = {};
     var req = new ws.WSRequest();
     var options = new Array();
 
-    var cookieHeader = options["HTTPHeaders"];
+    var server = require('store').server;
+    var user = server.current(session);
+    var carbon = require('carbon');
 
-    if(cookieHeader == null) {
+    var authUtil = Packages.org.wso2.carbon.ipaas.util.AuthUtil;
 
-        var esb_jsession_id = session.get("ESB_JSESSION_ID");
+    var loggedInUser = user.username + "@" + carbon.server.tenantDomain();
+    var authHeader = authUtil.getAuthHeader(loggedInUser);
 
-        if(esb_jsession_id == null) {
-            options.action = "urn:login";
-
-            // Need to have SAML_RESPONSE_RECEIVED in session.
-            // Add line session.put("SAML_RESPONSE_RECEIVED", samlResponse); into controller/acs.jag
-            var payload = '<sso:login xmlns:sso="http://sso.saml2.authenticator.identity.carbon.wso2.org" xmlns:xsd="http://dto.sso.saml2.authenticator.identity.carbon.wso2.org/xsd">'
-                +'<sso:authDto> <xsd:response>'
-                + session.get("SAML_RESPONSE_RECEIVED")
-                +'</xsd:response> </sso:authDto></sso:login>';
-
-            try {
-                // Open connection to SAML2 SSO Authentication Service - url currently hardcoded
-                req.open(options, ADMIN_SERVICE_URL + "/SAML2SSOAuthenticationService", false);
-
-                req.send(payload);
-                var resp=req.responseXML;
-                var isLoggedIn = resp..*::['return'].text();
-
-                var responseCookies = req.getResponseHeader('Set-Cookie').split(';');
-
-                // Assumed that JSESSIONID cookie is at the first element
-                session.put("ESB_JSESSION_ID", responseCookies[0]);
-
-            } catch (e) {
-                print(e.toString()); // Print error if something goes wrong
-            }
-        }
-
-        var jsId = session.get("ESB_JSESSION_ID");
-        options["HTTPHeaders"] = [ { name : "Cookie", value : jsId} ];
-    }
+    options["HTTPHeaders"] = [{name: "Authorization", value: String(authHeader)}];
 
     options.useSOAP = 1.2;
 
