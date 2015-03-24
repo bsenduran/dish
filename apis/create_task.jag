@@ -166,8 +166,36 @@ require('/modules/publisher.js').exec(function (ctx) {
                 return authContent;
             };
 
+            var callDeployConnectors = function (connection) {
 
-            var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.TemplateMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
+                var uploadConnector = function (libName) {
+                   if(!admin_tasks.isConnectorAlreadyDeployed(libName)){
+                        admin_tasks.deployConnector(libName);
+                    }
+                };
+
+                if (connection instanceof Array) {
+                    for (var i in connection) {
+                        uploadConnector(connection[i]);
+                    }
+                } else {
+                    uploadConnector(connection)
+                }
+
+            };
+
+            var enableConnector = function (connection) {
+                if (connection instanceof Array) {
+                    for (var i in connection) {
+                        admin_tasks.enableConnector(connection[i]);
+                    }
+                } else {
+                    admin_tasks.enableConnector(connection);
+                }
+            };
+
+
+            var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.RecipeMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
                     '<trigger count="' + trigger_count + '" interval="' + trigger_interval + '"/>' +
                     '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="templateParams">' +
                     '<dish.property.root xmlns="">';
@@ -192,10 +220,18 @@ require('/modules/publisher.js').exec(function (ctx) {
 
             if (isTaskExist == "true") {
                 admin_tasks.deleteTaskDescription(dish_name);
+            } else {
+                callDeployConnectors(ingredients);
+                callDeployConnectors(results);
             }
 
             admin_tasks.deployTemplate(recipe_name, assets.attributes.overview_url);
             admin_tasks.deployTransform(recipe_name, assets.attributes.overview_url);
+
+            Packages.java.lang.Thread.sleep(2000);
+            enableConnector(ingredients);
+            enableConnector(results);
+
             admin_tasks.deployTask(task_content);
 
         }

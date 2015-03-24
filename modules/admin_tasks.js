@@ -4,9 +4,10 @@ var tasks = {};
     //log.info('Request received');
 
     var esbServer;
-
+    var connectorsJSON;
     try {
         var serversConfig = require('/config/wso2-servers.json');
+        connectorsJSON = require('/config/connectors.json');
         esbServer = serversConfig.servers.esb_server;
 
     } catch (error){
@@ -33,10 +34,10 @@ var tasks = {};
     var user = server.current(session);
     var carbon = require('carbon');
 
-    var authUtil = Packages.org.wso2.carbon.ipaas.util.AuthUtil;
+    var ipaasUtils = Packages.org.wso2.carbon.ipaas.util.IpaasUtils;
 
     var loggedInUser = user.username + "@" + carbon.server.tenantDomain();
-    var authHeader = authUtil.getAuthHeader(loggedInUser);
+    var authHeader = ipaasUtils.getAuthHeader(loggedInUser);
 
     options["HTTPHeaders"] = [{name: "Authorization", value: String(authHeader)}];
 
@@ -297,5 +298,77 @@ var tasks = {};
         return response;
 
     };
+
+
+    admin_task.deployConnector = function(connection) {
+
+        var connectorName = connectorsJSON.connectors[connection].name;
+        var connectorPath = connectorsJSON.path.substr(-1) == "/" ? connectorsJSON.path : connectorsJSON.path+"/";
+
+        var b64 = ipaasUtils.base64Sting(connectorPath+connectorName);
+        options.action = "urn:uploadLibrary";
+        var pload = '<upl:uploadLibrary  xmlns:upl="http://upload.service.library.mediation.carbon.wso2.org" '
+            + 'xmlns:xsd="http://upload.service.library.mediation.carbon.wso2.org/xsd">'
+            + '<upl:fileItems>'
+            + '<xsd:dataHandler>' + String(b64) + '</xsd:dataHandler>'
+            + '<xsd:fileName>' + connectorName + '</xsd:fileName>'
+            + '<xsd:fileType>zip</xsd:fileType>'
+            + '</upl:fileItems>'
+            + '</upl:uploadLibrary>';
+
+        try {
+            req.open(options, ADMIN_SERVICE_URL + "/MediationLibraryUploader", false);
+            var se_result = req.send(pload);
+        } catch (e) {
+            print(e.toString());
+        }
+
+    };
+
+    admin_task.enableConnector = function(connection) {
+
+        var connectorPackageName = connectorsJSON.connectors[connection].package;
+        var libQName = "{"+connectorPackageName+"}"+connection;
+
+        options.action = "urn:updateStatus";
+        var pload = '<xsd:updateStatus xmlns:xsd="http://org.apache.synapse/xsd">'
+            + '<xsd:libQName>'+libQName+'</xsd:libQName>'
+            + '<xsd:libName>'+connection+'</xsd:libName>'
+            + '<xsd:packageName>'+connectorPackageName+'</xsd:packageName>'
+            + '<xsd:status>enabled</xsd:status>'
+            + '</xsd:updateStatus>';
+
+        try {
+            req.open(options, ADMIN_SERVICE_URL + "/MediationLibraryAdminService", false);
+            var se_result = req.send(pload);
+        } catch (e) {
+            print(e.toString());
+        }
+
+    };
+
+    admin_task.isConnectorAlreadyDeployed = function(connection) {
+
+        var connectorPackageName = connectorsJSON.connectors[connection].package;
+        var libName = "";
+        options.action = "urn:getLibraryInfo";
+        var pload = '<xsd:getLibraryInfo xmlns:xsd="http://org.apache.synapse/xsd">'
+            + '<xsd:libName>' + connection + '</xsd:libName>'
+            + '<xsd:packageName>' + connectorPackageName + '</xsd:packageName>'
+            + '</xsd:getLibraryInfo>';
+
+        try {
+            req.open(options, ADMIN_SERVICE_URL + "/MediationLibraryAdminService", false);
+
+            req.send(pload);
+            var respSE = req.responseXML;
+
+            libName = respSE..*::['libName'].text();
+
+        } catch (e) {
+            print(e.toString());
+        }
+        return libName == connection;
+    }
 
 }(tasks));
