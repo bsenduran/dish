@@ -195,7 +195,7 @@ require('/modules/publisher.js').exec(function (ctx) {
             };
 
 
-            var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.RecipeMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
+            var task_root_node = '<task xmlns="http://www.wso2.org/products/wso2commons/tasks" class="org.apache.synapse.startup.tasks.TemplateMessageExecutor" group="synapse.simple.quartz" name="' + dish_name + '">' +
                     '<trigger count="' + trigger_count + '" interval="' + trigger_interval + '"/>' +
                     '<property xmlns:task="http://www.wso2.org/products/wso2commons/tasks" name="templateParams">' +
                     '<dish.property.root xmlns="">';
