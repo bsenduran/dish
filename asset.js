@@ -31,12 +31,12 @@ asset.server = function (ctx) {
             ],
             pages: [
                 {
-                    title: 'Prepare Ingredients',
+                    title: 'Prepare Source',
                     url: 'set_ingredients',
                     path: 'set_ingredients.jag'
                 },
                 {
-                    title: 'Prepare Results',
+                    title: 'Prepare Destination',
                     url: 'set_results',
                     path: 'set_results.jag'
                 },
@@ -76,8 +76,8 @@ asset.renderer = function (ctx) {
         var id = page.assets.id;
         var navList = util.navList();
         navList.push('Overview','icon-step-1',util.buildUrl('details') + '/' + id);
-        navList.push('Prepare Ingredients','icon-step-2',util.buildUrl('set_ingredients') + '/' + id);
-        navList.push('Prepare Results','icon-step-3',util.buildUrl('set_results') + '/' + id);
+        navList.push('Prepare Source','icon-step-2',util.buildUrl('set_ingredients') + '/' + id);
+        navList.push('Prepare Destination','icon-step-3',util.buildUrl('set_results') + '/' + id);
         navList.push('Map Data','icon-step-4',util.buildUrl('set_process') + '/' + id);
         navList.push('Deploy','icon-step-5',util.buildUrl('deploy') + '/' + id);
         return navList.list();
