@@ -51,7 +51,7 @@ asset.server = function (ctx) {
                     path: 'deploy.jag'
                 },
                 {
-                    title: 'Create Dish',
+                    title: 'Create Integration',
                     url: 'create_dish',
                     path: 'create_dish.jag'
                 },

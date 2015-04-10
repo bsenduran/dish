@@ -1,4 +1,4 @@
-<h3 class="h-left-nav-title">Dish Control Panel</h3>
+<h3 class="h-left-nav-title">Integration Control Panel</h3>
 <!--p><strong>TIP:</strong> Activating/De-activating</p-->
 
 <div class="hr-sep-2">&nbsp;</div>
@@ -16,14 +16,14 @@
 
     <div class="hr-sep-2">&nbsp;</div>
     <button class="btn-action btn-alt-actionsx btn-delete-cp" id="btn-belete" type="button"
-            onclick="confirm_delete('{{assets.name}}', '{{assets.id}}');">Delete this Dish
+            onclick="confirm_delete('{{assets.name}}', '{{assets.id}}');">Delete this Integration
     </button>
 </div>
 
 
 <script>
     var confirm_activate = function (name, id) {
-        bootbox.confirm("<p class='modal-msg'> Activate this Dish?</p>", function (result) {
+        bootbox.confirm("<p class='modal-msg'> Activate this Integration?</p>", function (result) {
 
             if (result) {
                 window.location.href = "/publisher/asts/dish/apis/manage_task/activate?dishName=" + name + "&id=" + id;
@@ -32,7 +32,7 @@
     };
 
     var confirm_deactivate = function (name, id) {
-        bootbox.confirm("<p class='modal-msg'>Deactivate this Dish?</p>", function (result) {
+        bootbox.confirm("<p class='modal-msg'>Deactivate this Integration?</p>", function (result) {
 
             if (result) {
                 window.location.href = "/publisher/asts/dish/apis/manage_task/deactivate?dishName=" + name + "&id=" + id;
@@ -41,7 +41,7 @@
     };
 
     var confirm_delete = function (name, id) {
-        bootbox.confirm("<p class='modal-msg'>Delete this Dish?</p><p style='margin-left:10px; font-size:14px; font-weight:200'>Confirming this will completely wipe out the dish, including the configuration details associated. ", function (result) {
+        bootbox.confirm("<p class='modal-msg'>Delete this Integration?</p><p style='margin-left:10px; font-size:14px; font-weight:200'>Confirming this will completely wipe out the integration, including the configuration details associated. ", function (result) {
 
             if (result) {
                 window.location.href = "/publisher/asts/dish/apis/manage_task/delete?dishName=" + name + "&id=" + id;
