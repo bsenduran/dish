@@ -41,6 +41,12 @@ require('/modules/publisher.js').exec(function (ctx) {
             var trigger_interval = assets.attributes.overview_triggerinterval;
             var trigger_count = assets.attributes.overview_triggercount;
 
+            // Limit trigger interval
+            if (trigger_interval < 5) trigger_count = 5;
+
+            // Limit trigger count
+            if (trigger_count > 10) trigger_count = 10;
+            if (trigger_count < 0) trigger_count = 0;
 
             var ingredients = assets.attributes.ingredient_connectorname;
             var results = assets.attributes.result_connectorname;
