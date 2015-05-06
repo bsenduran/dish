@@ -41,7 +41,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     var splittedLen = splittedURL.length;
     log.info([splittedLen - 2]);//todo: fixing for localhost and git (any) url pattern
     var recipeName = splittedURL[splittedLen - 2]; //todo: read this from recipe (add recipe_code in recipe rxt)
-    var randomNumber = '[Recipe ID ' + Math.floor((Math.random() * 1000) + 1) + '] ';
+    var randomNumber = '_ Integration ID ' + Math.floor((Math.random() * 1000) + 1) + ' _ ';
 
 
     var am = asset.createUserAssetManager(ctx.session, 'dish');

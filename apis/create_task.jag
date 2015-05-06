@@ -42,7 +42,7 @@ require('/modules/publisher.js').exec(function (ctx) {
             var trigger_count = assets.attributes.overview_triggercount;
 
             // Limit trigger interval
-            if (trigger_interval < 5) trigger_count = 5;
+            if (trigger_interval < 5) trigger_interval = 5;
 
             // Limit trigger count
             if (trigger_count > 10) trigger_count = 10;
