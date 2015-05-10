@@ -78,10 +78,10 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                     // Create parameter value depending on typeaware value
                     if (typeawareType == 'json'){
-                        paramValue = '{json-eval($.' + paramValue.substring(1, length - 1) + ')}';
+                        paramValue = '{{json-eval($.' + paramValue.substring(1, length - 1) + ')}}';
                     }
                     else{
-                        paramValue = '{$body//' + paramValue.substring(1, length - 1) + '/text()}';
+                        paramValue = '{{$body//' + paramValue.substring(1, length - 1) + '/text()}}';
                     }
 
                 }
