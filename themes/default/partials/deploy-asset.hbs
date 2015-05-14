@@ -9,15 +9,16 @@
  <form class="form-horizontal" method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/asts/{{assets.type}}/apis/create_task?id={{assets.id}}'>
         <div class="control-group">
             <label class="control-label" for="dishName">Integration Name</label>
-            {{#if assets.isTaskExist}}
+            <!--{{#if assets.isTaskExist}}
                 <div class="controls">
-                    <input type="text" id="dishName" readonly="readonly" name="overview_name" value="{{assets.name}}">
+                    <input type="text" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}}">
                 </div>
-            {{else}}
+            {{else}}-->
                 <div class="controls">
-                    <input type="text" id="dishName" name="overview_name" value="{{assets.name}}">
+                    <input type="text" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}}">
                 </div>
-            {{/if}}
+            <!--{{/if}}-->
+            <input type="hidden" name="overview_name" value="{{assets.name}}"/>
         </div>
         <div class="control-group">
             <label class="control-label" for="triggerInterval">Triggering Period (in sec)</label>
