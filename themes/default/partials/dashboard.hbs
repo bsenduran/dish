@@ -11,7 +11,7 @@
                 {{#if assets}}
 
 
-                <ul class="thumbnails">
+                <ul class="thumb-list">
                     {{#each assets}}
 
 
@@ -45,10 +45,13 @@
                             </span>
                             </a>
                         </div>
+						
+						<br style="clear:both"/>
 
                     </div>
 
                     {{/each}}
+				</ul>
                 {{else}}
                     <div class="no-dishes">
                         <p>You have no integrations in your Dashboard. Create your own dish by going to the <a href="/publisher/../store/t/carbon.super">Integration Template store</a> and selecting a template.</p>
@@ -58,7 +61,7 @@
                 {{/if}}
             </div>
             <!-- my dishes -->
-
+<br style="clear:both"/>
 
             <div class="hr-sep-2"></div>
 
@@ -70,7 +73,7 @@
 
 
             {{#if connectionAssets}}
-            <ul class="thumbnails">
+            <ul class="thumb-list">
 
                 {{#each connectionAssets}}
                 <li>
