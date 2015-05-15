@@ -1669,11 +1669,11 @@ h3, h4, h2 {
 }
 
 h2.asset-name {
-    font-size:30px;
+    font-size:24px;
     font-weight: 200;
 
     letter-spacing: 0px;
-    margin-bottom:0px;
+    margin-bottom:10px;
 }
 
 h3 {
@@ -1728,7 +1728,7 @@ p {
 .wr-right {
     float:right;
     width:720px;
-    border:0px solid #ff0000;
+    border:1px solid #dedede;
 	background:#fff;
 	border-radius:5px;
 	padding:25px 15px 15px 25px;
@@ -1736,12 +1736,13 @@ p {
 
 
 .wr-left-nav {
-    border:0px solid #dedede;
+    border:1px solid #dedede;
     border-radius:5px;
     background:#fff;
     width:250px;
-    padding:30px 17px;
-    text-align: center;
+    padding:27px 17px 20px 17px;
+    text-align: left;
+
 }
 
 .hr-sep {
@@ -2106,6 +2107,8 @@ input.input-set-connection {
     border:0px solid #fff !important;
     background:#fff !important;
     box-shadow: inset 0px 0px 0px rgba(0,0,0,0.9);
+	font-size:16px;
+	padding-top:10px;
 }
 
 .ctrl-paging {
@@ -2138,16 +2141,19 @@ input.input-set-connection {
 }
 
 .btn-deploy {
+	font-family:"Open Sans";
     display: inline-block;
     background: #5fb548;
-    border-radius: 0px;
+    border-radius: 4px;
     color: #ffffff;
-    font-weight: 700;
+    font-weight: 100;
     font-size: 16px;
     padding: 15px 20px;
     border:0px solid #fff;
     left:0;
     right:0;
+	margin-top:30px;
+	margin-bottom:30px;
 }
 
 .btn-pag:hover, .btn-deploy:hover {
@@ -2214,11 +2220,11 @@ a.btn-select-connection:hover {
 }
 
 .h-left-nav-title {
-    font-size:15px;
-	text-transform:uppercase;
-	font-weight:500;
+    font-size:20px;
+
+	font-weight:100;
 	margin-bottom:20px;
-	letter-spacing:-1px;
+
 }
 
 .btn-alt-actions {
@@ -2441,5 +2447,23 @@ ul.ctrl-step-wiz li i {
 	color:#fff;
 	border-radius:4px !important;
 }
+
+.input-append, .control-group {
+	margin-bottom:15px;
+}
+
+.input-append input, .controls input {
+	padding:5px 15px;
+	width:450px;
+}
+
+label.control-label, fieldset label {
+	font-weight:100;
+	font-size:15px;
+	margin-bottom:5px !important;
+	display:block !important;
+}
+
+
 
 
