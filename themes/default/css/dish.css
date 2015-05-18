@@ -1741,7 +1741,7 @@ p {
     background:#fff;
     width:250px;
     padding:27px 17px 20px 17px;
-    text-align: left;
+    text-align: center;
 
 }
 
@@ -2264,7 +2264,7 @@ a.btn-select-connection:hover {
     font-size: 14px;
     padding: 12px 15px 12px 15px;
     border:0px solid #fff;
-    width:160px;
+    width:190px;
 }
 
 .btn-configure:hover {
