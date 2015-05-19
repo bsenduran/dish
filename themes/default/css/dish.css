@@ -2264,7 +2264,8 @@ a.btn-select-connection:hover {
     font-size: 14px;
     padding: 12px 15px 12px 15px;
     border:0px solid #fff;
-    width:160px;
+    width:190px;
+	text-align:center;
 }
 
 .btn-configure:hover {
