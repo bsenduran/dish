@@ -137,7 +137,9 @@ require('/modules/publisher.js').exec(function (ctx) {
                         for (var j in accountContent) {
                             if (j == account[i]) {
 
-                                var authDetail = accountContent[j];
+                                var authDetailString = accountContent[j];
+                                authDetail = JSON.parse(authDetailString);
+
                                 for (var auth in authDetail) {
                                     var nodeName = connectors[i] + "." + auth;
                                     var authElem = "<" + nodeName + ">" + authDetail[auth] + "<\/" + nodeName + ">";
@@ -168,7 +170,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                         }
                     }
                 }
-
+log.info("TEST: " +connectors);
                 return authContent;
             };
 
