@@ -170,7 +170,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                         }
                     }
                 }
-log.info("TEST: " +connectors);
+
                 return authContent;
             };
 
@@ -195,11 +195,30 @@ log.info("TEST: " +connectors);
             var enableConnector = function (connection) {
                 if (connection instanceof Array) {
                     for (var i in connection) {
-                        admin_tasks.enableConnector(connection[i]);
+                        if (waitForConnectorDeploy(connection)) {
+                            admin_tasks.enableConnector(connection[i]);
+                        }
                     }
                 } else {
-                    admin_tasks.enableConnector(connection);
+                    if (waitForConnectorDeploy(connection)) {
+                        admin_tasks.enableConnector(connection);
+                    }
                 }
+            };
+
+            var waitForConnectorDeploy = function (connection) {
+                // Five attempts before enabling connector
+                var countdown = 5;
+                while (!admin_tasks.isConnectorAlreadyDeployed(connection) && (countdown > 0) ) {
+                    Packages.java.lang.Thread.sleep(3000);
+                    countdown --;
+                }
+                if (countdown == 0) {
+                    log.error ('Connector is not deployed with given timeout : ' + connection);
+                    return false;
+                }
+
+                return true;
             };
 
 
