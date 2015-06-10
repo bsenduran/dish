@@ -62,6 +62,8 @@ require('/modules/publisher.js').exec(function (ctx) {
 
             // Generic function to get relevant text value for xml tag
             var getString = function (paramValue) {
+
+                paramValue= paramValue+'';
                 var length = paramValue.length;
 
                 // Modify only type-aware places, Note: Still support single type-aware cases
