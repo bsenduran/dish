@@ -282,7 +282,7 @@ require('/modules/publisher.js').exec(function (ctx) {
             var enableConnector = function (connection) {
                 if (connection instanceof Array) {
                     for (var i in connection) {
-                        if (waitForConnectorDeploy(connection)) {
+                        if (waitForConnectorDeploy(connection[i])) {
                             admin_tasks.enableConnector(connection[i]);
                         }
                     }
@@ -295,7 +295,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
             var waitForConnectorDeploy = function (connection) {
                 // Five attempts before enabling connector
-                var countdown = 5;
+                var countdown = 10;
                 while (!admin_tasks.isConnectorAlreadyDeployed(connection) && (countdown > 0) ) {
                     Packages.java.lang.Thread.sleep(3000);
                     countdown --;
