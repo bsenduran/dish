@@ -15,7 +15,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     var assetId = query.split("=")[1];
 
     var log = new Log();
-    log.info("==================================" + assetId);
+    log.info("Current Asset Id : " + assetId);
 
 
 //=================================================================================================
@@ -67,7 +67,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                 var length = paramValue.length;
 
                 // Modify only type-aware places, Note: Still support single type-aware cases
-                if (paramValue.charAt(0) == '{' && paramValue.charAt(length - 1) == '}') {
+                if (paramValue.indexOf('{') > -1) {
                     // Get type value from session
                     var typeawareType = 'xml';
 
@@ -78,19 +78,104 @@ require('/modules/publisher.js').exec(function (ctx) {
                         typeawareType = 'xml'
                     }
 
-                    // Create parameter value depending on typeaware value
-                    if (typeawareType == 'json'){
-                        paramValue = '{{json-eval($.' + paramValue.substring(1, length - 1) + ')}}';
-                    }
-                    else{
-                        paramValue = '{{$body//' + paramValue.substring(1, length - 1) + '/text()}}';
-                    }
+                    // Create a map with typeaware_term -> mapping_synapse_path
+                    var expressionMappedArray = getMappingExpressions(
+                            getWordsBetweenCurlies(paramValue),
+                            typeawareType
+                    );
+                    // log.info(expressionMappedArray);
+
+                    paramValue = getFullyEditiedParamValue (paramValue, expressionMappedArray);
+                    paramValue = 'fn:concat(' + paramValue + ')';
+
+                    log.info ('Generated XPath : ' + paramValue);
 
                 }
 
                 return paramValue;
             };
 
+            // For use of typeaware
+            var getWordsBetweenCurlies = function (str) {
+                var results = [], re = /{([^}]+)}/g, text;
+
+                while(text = re.exec(str)) {
+                    results.push(text[1]);
+                }
+
+                return results;
+            };
+
+            // For use of typeaware
+            var getMappingExpressions = function (wordArray, typeawareType) {
+
+                var results = [], expValue;
+
+                for (var i in wordArray) {
+                    var key = '{' + wordArray[i] + '}';
+
+                    // Create expValue depending on typeaware value
+                    if (typeawareType == 'json') {
+                        expValue = '{{json-eval($.' + wordArray[i] + ')}}';
+                    }
+                    else {
+                        expValue = '{{$body//' + wordArray[i] + '/text()}}';
+                    }
+
+                    results.push(
+                            [ key, expValue ]
+                    );
+                }
+
+                return results;
+            };
+
+            // For use of typeaware
+            var getFullyEditiedParamValue = function (text, expressionMappedArray){
+                // Get a tmp copy
+                var replicate = text;
+
+                for (var i in expressionMappedArray) {
+                    var entry = expressionMappedArray[i];
+                    replicate = replicate.replace(entry[0], entry[1]);
+                }
+                // log.info('fn:concat(' + replicate + ')' );
+
+                var tmpReplicateArray = replicate.split('');
+                replicate = "";
+
+                // Adding commas at proper places
+                for(i=0; i < tmpReplicateArray.length; i++){
+                    replicate += tmpReplicateArray[i];
+                    if ( ( (i+2) < tmpReplicateArray.length) && (tmpReplicateArray[i] == '}' && tmpReplicateArray[i+1] == '}')){
+                        replicate += '},';
+                        i++;
+                    } else if ( ( (i+1) < tmpReplicateArray.length) && (tmpReplicateArray[i+1] == '{' && tmpReplicateArray[i+2] == '{')){
+
+                        if ( ( i > 1) && (tmpReplicateArray[i] != ',') ) {
+                            replicate += ',';
+                        }
+                    }
+                }
+
+                var terms = replicate.split(',');
+                // log.info(terms);
+
+                // Adding single-quotes for text values
+                for (var i in terms) {
+                    var entry = terms[i];
+
+                    // Select only the text values
+                    if (entry.charAt(0) != '{' && entry.charAt(entry.length-1) != '}') {
+                        terms[i] = "'" + entry + "'";
+                    }
+                }
+
+                // Again combine array with comma separated
+                replicate = terms.join(',');
+
+                return replicate;
+            };
 
             var getXMLContent = function (connectors, connectors_param, connector_param_val) {
                 var content = "";
