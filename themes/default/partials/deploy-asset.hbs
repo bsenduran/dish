@@ -15,13 +15,13 @@
             <input type="hidden" name="overview_name" value="{{assets.name}}"/>
         </div>
         <div class="control-group">
-            <label class="control-label" for="triggerInterval">Triggering Period (in sec)</label>
+            <label class="control-label" for="triggerInterval">Invocation Delay (in sec)</label>
             <div class="controls">
                 <input type="text" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval">
             </div>
         </div>
      <div class="control-group">
-         <label class="control-label" for="triggerCount">Trigger Count</label>
+         <label class="control-label" for="triggerCount">Times To Trigger</label>
          <div class="controls">
              <input type="text" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount">
          </div>
@@ -29,9 +29,9 @@
         <div class="control-group">
             <div class="controls">
                 {{#if assets.isTaskExist}}
-                        <button type="button" class="btn-deploy" id="add-form-btn">Redeploy this integration</button>
+                        <button type="button" class="btn-deploy" id="add-form-btn">Restart This</button>
                 {{else}}
-                        <button type="button" class="btn-deploy" id="add-form-btn">Deploy this integration</button>
+                        <button type="button" class="btn-deploy" id="add-form-btn">Start This</button>
                 {{/if}}
             </div>
         </div>
