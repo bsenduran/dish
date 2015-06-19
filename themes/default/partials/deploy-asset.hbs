@@ -20,12 +20,18 @@
                 <input type="text" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval">
             </div>
         </div>
-     <div class="control-group">
+        <div class="control-group">
          <label class="control-label" for="triggerCount">Times To Trigger</label>
          <div class="controls">
              <input type="text" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount">
          </div>
-     </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="triggerForever">Continue For Ever</label>
+            <div class="controls">
+                <input type="checkbox" name ="" id="triggerForever">
+            </div>
+        </div>
         <div class="control-group">
             <div class="controls">
                 {{#if assets.isTaskExist}}
@@ -33,6 +39,12 @@
                 {{else}}
                         <button type="button" class="btn-deploy" id="add-form-btn">Start This</button>
                 {{/if}}
+            </div>
+        </div>
+        <!-- Test Button -->
+        <div class="control-group">
+            <div class="controls">
+                <button type="button" class="btn-deploy" id="test-form-btn">Test This</button>
             </div>
         </div>
     </form>
