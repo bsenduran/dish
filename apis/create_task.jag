@@ -9,14 +9,18 @@ require('/modules/publisher.js').exec(function (ctx) {
     var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
     var options = uriMatcher.match('/{context}/asts/{type}/apis/{pageName}');
     var query = request.getQueryString();
-
+    var log = new Log();
     var type = options.type;
 
-    var assetId = query.split("=")[1];
+    var getParameterByName = function (name) {
+        var match = RegExp(name + '=([^&]*)').exec(query);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    };
 
-    var log = new Log();
+    var assetId = getParameterByName('id');
+
     log.info("Current Asset Id : " + assetId);
-
+    log.info ("Query string : "+ query);
 
 //=================================================================================================
 
@@ -327,7 +331,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                     task_root_closing;
 
 
-            log.info("about to deploy");
+            log.info("About to deploy");
             log.info(task_content);
 
             var isTaskExist = admin_tasks.isTaskExist(dish_name);
@@ -353,6 +357,19 @@ require('/modules/publisher.js').exec(function (ctx) {
 
 //=================================================================================================
 
+    if (getParameterByName('test') != 'true') {
+        response.sendRedirect('/publisher/asts/dish/dashboard');
+    } else {
+        // Delete the task
+        log.info('System clearing created task creted for testing');
+        var dishName = getParameterByName('dishName');
+        // log.info(overviewName);
 
-    response.sendRedirect('/publisher/asts/dish/dashboard');
+        Packages.java.lang.Thread.sleep(2000);
+
+        admin_tasks.deleteTaskDescription(dishName);
+
+        // Redirects back to deploy page
+        response.sendRedirect('/publisher/asts/dish/deploy/' + assetId);
+    }
 }, request, response, session); %>

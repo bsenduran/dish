@@ -16,6 +16,34 @@ $(function(){
         });
     });
 
+    $('#test-form-btn').on('click',function(){
+
+        var overviewName = $('#form-update').find('input[name="overview_name"]').val();
+        var overviewTriggerCount = $('#form-update').find('input[name="overview_triggercount"]').val();
+
+        // Setting temporary values
+        $('#form-update').find('input[name="overview_triggercount"]').val('1');
+
+        // Submit to save in ES
+        $('#form-update').ajaxSubmit({
+             success:function(){
+
+                 // Sending to ESB
+                 var options=obtainFormMeta('#form-update');
+
+                 window.location=options.redirectUrl + "&test=true" + "&dishName=" + overviewName;
+
+                 alert('Integration testing is completed');
+             },
+             error:function(){
+                 alert('Unable to test the integration');
+             }
+        });
+
+        // Resetting to previous values
+        $('#form-update').find('input[name="overview_triggercount"]').val(overviewTriggerCount);
+    });
+
     // Toggling trigger-count based on checkbox status
     $('#triggerForever').on('click',function(){
         var checkedState = document.getElementById("triggerForever").checked;
