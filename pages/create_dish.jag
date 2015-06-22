@@ -88,8 +88,10 @@ require('/modules/publisher.js').exec(function (ctx) {
 
     am.create(assetInstance);
 
-    // log.info('id: '+assetInstance.id);
+//    log.info('id: '+assetInstance.id);
 
+    // Adding Dish-Lifecycle to instance
+    am.attachLifecycle(assetInstance, "DishLifeCycle");
 
     response.sendRedirect('details/' + assetInstance.id);
 

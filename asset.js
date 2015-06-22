@@ -41,11 +41,6 @@ asset.server = function (ctx) {
                     path: 'set_results.jag'
                 },
                 {
-                    title: 'Map Data',
-                    url: 'set_process',
-                    path: 'set_process.jag'
-                },
-                {
                     title: 'Deploy',
                     url: 'deploy',
                     path: 'deploy.jag'
@@ -78,8 +73,7 @@ asset.renderer = function (ctx) {
         navList.push('Overview','icon-step-1',util.buildUrl('details') + '/' + id);
         navList.push('Prepare Source','icon-step-2',util.buildUrl('set_ingredients') + '/' + id);
         navList.push('Prepare Destination','icon-step-3',util.buildUrl('set_results') + '/' + id);
-        navList.push('Map Data','icon-step-4',util.buildUrl('set_process') + '/' + id);
-        navList.push('Deploy','icon-step-5',util.buildUrl('deploy') + '/' + id);
+        navList.push('Deploy','icon-step-4',util.buildUrl('deploy') + '/' + id);
         return navList.list();
     };
 

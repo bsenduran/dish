@@ -1803,10 +1803,6 @@ p {
 }
 
 .icon-step-4 {
-    background: url("../img/ico-map-data.png") 0.4em 0.4em no-repeat;
-}
-
-.icon-step-5 {
     background: url("../img/ico-deploy.png") 0.4em 0.4em no-repeat;
 }
 

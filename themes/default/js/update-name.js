@@ -21,14 +21,21 @@ $(function(){
         var checkedState = document.getElementById("triggerForever").checked;
         var textBox = document.getElementById("triggerCount");
 
+        // Using HTML5 sessionStorage
         if(checkedState) {
             textBox.disabled = true;
+            sessionStorage.setItem("triggerCount", textBox.value);
             textBox.value = -1;
-            textBox.style.visibility = "hidden";
+
         } else {
             textBox.disabled = false;
-            textBox.value = "";
-            textBox.style.visibility = "visible";
+            var c = sessionStorage.getItem("triggerCount")
+            if (c != null){
+                textBox.value = c;
+                sessionStorage.setItem("triggerCount", "");
+            } else {
+                textBox.value = "";
+            }
         }
     });
 
