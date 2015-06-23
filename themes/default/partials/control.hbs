@@ -26,6 +26,7 @@
         bootbox.confirm("<p class='modal-msg'> Activate this Integration?</p>", function (result) {
 
             if (result) {
+                changeDishLifeCycle(id, 'active');
                 window.location.href = "/publisher/asts/dish/apis/manage_task/activate?dishName=" + name + "&id=" + id;
             }
         });
@@ -35,6 +36,7 @@
         bootbox.confirm("<p class='modal-msg'>Deactivate this Integration?</p>", function (result) {
 
             if (result) {
+                changeDishLifeCycle(id, 'deactive');
                 window.location.href = "/publisher/asts/dish/apis/manage_task/deactivate?dishName=" + name + "&id=" + id;
             }
         });
@@ -46,6 +48,14 @@
             if (result) {
                 window.location.href = "/publisher/asts/dish/apis/manage_task/delete?dishName=" + name + "&id=" + id;
             }
+        });
+    };
+
+    var changeDishLifeCycle = function (dishId, state) {
+        $.ajax({
+            url: "/publisher/apis/asset/" + dishId + "/change-state?type=dish&lifecycle=DishLifeCycle&nextState=" + state,
+            method: "POST",
+            contentType: "text/html; charset=utf-8"
         });
     };
 </script>
