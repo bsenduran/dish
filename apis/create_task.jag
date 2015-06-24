@@ -69,6 +69,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 paramValue= paramValue+'';
                 var length = paramValue.length;
+                var result = '';
 
                 // Modify only type-aware places, Note: Still support single type-aware cases
                 if (paramValue.indexOf('{') > -1) {
@@ -82,104 +83,62 @@ require('/modules/publisher.js').exec(function (ctx) {
                         typeawareType = 'xml'
                     }
 
-                    // Create a map with typeaware_term -> mapping_synapse_path
-                    var expressionMappedArray = getMappingExpressions(
-                            getWordsBetweenCurlies(paramValue),
-                            typeawareType
-                    );
-                    // log.info(expressionMappedArray);
+                    var expressionMappedArray = getTypeAwareExpression(paramValue, typeawareType);
 
-                    paramValue = getFullyEditiedParamValue (paramValue, expressionMappedArray);
-                    paramValue = 'fn:concat(' + paramValue + ')';
-
+                    for (var key in expressionMappedArray) {
+                        result+=expressionMappedArray[key]+",";
+                    }
+                    paramValue='{{fn:concat(' + result.substring(0,result.length-1) + ')}}';
                     log.info ('Generated XPath : ' + paramValue);
-
                 }
 
                 return paramValue;
             };
 
-            // For use of typeaware
-            var getWordsBetweenCurlies = function (str) {
-                var results = [], re = /{([^}]+)}/g, text;
+            // For Typeaware
+            var getTypeAwareExpression = function(paramValue,typeaware){
+                var map=[];
+                var start=-1;
+                var end=-1;
+                var found=false;
+                var plain='';
 
-                while(text = re.exec(str)) {
-                    results.push(text[1]);
-                }
-
-                return results;
-            };
-
-            // For use of typeaware
-            var getMappingExpressions = function (wordArray, typeawareType) {
-
-                var results = [], expValue;
-
-                for (var i in wordArray) {
-                    var key = '{' + wordArray[i] + '}';
-
-                    // Create expValue depending on typeaware value
-                    if (typeawareType == 'json') {
-                        expValue = '{{json-eval($.' + wordArray[i] + ')}}';
-                    }
-                    else {
-                        expValue = '{{$body//' + wordArray[i] + '/text()}}';
-                    }
-
-                    results.push(
-                            [ key, expValue ]
-                    );
-                }
-
-                return results;
-            };
-
-            // For use of typeaware
-            var getFullyEditiedParamValue = function (text, expressionMappedArray){
-                // Get a tmp copy
-                var replicate = text;
-
-                for (var i in expressionMappedArray) {
-                    var entry = expressionMappedArray[i];
-                    replicate = replicate.replace(entry[0], entry[1]);
-                }
-                // log.info('fn:concat(' + replicate + ')' );
-
-                var tmpReplicateArray = replicate.split('');
-                replicate = "";
-
-                // Adding commas at proper places
-                for(i=0; i < tmpReplicateArray.length; i++){
-                    replicate += tmpReplicateArray[i];
-                    if ( ( (i+2) < tmpReplicateArray.length) && (tmpReplicateArray[i] == '}' && tmpReplicateArray[i+1] == '}')){
-                        replicate += '},';
-                        i++;
-                    } else if ( ( (i+1) < tmpReplicateArray.length) && (tmpReplicateArray[i+1] == '{' && tmpReplicateArray[i+2] == '{')){
-
-                        if ( ( i > 1) && (tmpReplicateArray[i] != ',') ) {
-                            replicate += ',';
+                for(itr=0;itr<paramValue.length;itr++){
+                    if(paramValue[itr]==='{'){
+                        start=itr;
+                        end=-1;
+                        found=true;
+                        if(plain!==''){
+                            map[plain]="'"+plain+"'";
+                            plain=''
                         }
                     }
-                }
+                    else if(paramValue[itr]==='}'){
+                        end=itr;
+                        if(start!==-1){
+                            if(typeaware==="xml"){
+                                map[paramValue.substring(start,end+1)]='$body//'+paramValue.substring(start+1,end)+'/text()';
+                            }
+                            else {
+                                map[paramValue.substring(start,end+1)]='json-eval($.'+paramValue.substring(start+1,end)+')';
+                            }
 
-                var terms = replicate.split(',');
-                // log.info(terms);
-
-                // Adding single-quotes for text values
-                for (var i in terms) {
-                    var entry = terms[i];
-
-                    // Select only the text values
-                    if (entry.charAt(0) != '{' && entry.charAt(entry.length-1) != '}') {
-                        terms[i] = "'" + entry + "'";
+                        }
+                        end=-1;
+                        start=-1;
+                        found=false;
+                    }
+                    else if(!found){
+                        plain+=paramValue[itr];
                     }
                 }
 
-                // Again combine array with comma separated
-                replicate = terms.join(',');
+                if(plain!==''){
+                    map[plain]="'"+plain+"'";
+                }
 
-                return replicate;
-            };
+                return map;
+            }
 
             var getXMLContent = function (connectors, connectors_param, connector_param_val) {
                 var content = "";
