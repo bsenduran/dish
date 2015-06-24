@@ -88,6 +88,10 @@ require('/modules/publisher.js').exec(function (ctx) {
                     for (var key in expressionMappedArray) {
                         result+=expressionMappedArray[key]+",";
                     }
+                    
+                    if (result.substring(0,result.length-1).split(",").length < 2) {
+                        result+="' ',";
+                    }
                     paramValue='{{fn:concat(' + result.substring(0,result.length-1) + ')}}';
                     log.info ('Generated XPath : ' + paramValue);
                 }
