@@ -17,9 +17,6 @@
 
                     <div class="ctrl-thumb-asset">
 
-                        <div class="my-dish-status">
-                             <small><i class="icon-circle lc-state-{{this.lifecycleState}}" title="{{this.lifecycleState}}"></i></small>
-                        </div>
 
                         <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}' id='titleText' title="{{this.attributes.overview_name}}">
                             <div class="lbl-thumb-asset-img">
@@ -45,7 +42,12 @@
                             </span>
                             </a>
                         </div>
-						
+
+                        <div class="my-dish-status">
+                            <kbd>{{this.lifecycleState}}</kbd>
+                            <!--<small><i class="icon-circle lc-state-{{this.lifecycleState}}" title="{{this.lifecycleState}}"></i></small>-->
+                        </div>
+
 						<br style="clear:both"/>
 
                     </div>
