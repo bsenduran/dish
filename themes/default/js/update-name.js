@@ -4,10 +4,13 @@ $(function(){
     };
 
     $('#add-form-btn').on('click',function(){
+        var dishId = $('#assetId').text();
         $('#form-update').ajaxSubmit({
             success:function(){
                 var options=obtainFormMeta('#form-update');
                 alert('Integration will be deployed in a moment');
+                changeDishLifeCycle(dishId);
+                console.log(options);
                 window.location=options.redirectUrl;
             },
             error:function(){
@@ -66,5 +69,13 @@ $(function(){
             }
         }
     });
+
+    function changeDishLifeCycle(dishId){
+        $.ajax({
+            url: "/publisher/apis/asset/" + dishId + "/change-state?type=dish&lifecycle=DishLifeCycle&nextState=active",
+            method: "POST",
+            contentType: "text/html; charset=utf-8"
+        })
+    }
 
 });
