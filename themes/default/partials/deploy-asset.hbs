@@ -10,20 +10,20 @@
         <div class="control-group">
             <label class="control-label" for="dishName">Integration Name</label>
             <div class="controls">
-                <input type="text" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}}">
+                <input type="text" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}} " class="validating_field">
             </div>
             <input type="hidden" name="overview_name" value="{{assets.name}}"/>
         </div>
         <div class="control-group">
             <label class="control-label" for="triggerInterval">Invocation Delay (in sec)</label>
             <div class="controls">
-                <input type="text" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval">
+                <input type="text" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval" class="validating_field">
             </div>
         </div>
         <div class="control-group">
          <label class="control-label" for="triggerCount">Times To Trigger</label>
          <div class="controls">
-             <input type="text" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount">
+             <input type="text" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount" class="validating_field">
          </div>
         </div>
         <div class="control-group">
