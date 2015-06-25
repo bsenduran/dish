@@ -4,19 +4,25 @@ $(function(){
     };
 
     $('#add-form-btn').on('click',function(){
-        var dishId = $('#assetId').text();
-        $('#form-update').ajaxSubmit({
-            success:function(){
-                var options=obtainFormMeta('#form-update');
-                alert('Integration will be deployed in a moment');
-                changeDishLifeCycle(dishId);
-                console.log(options);
-                window.location=options.redirectUrl;
-            },
-            error:function(){
-                alert('Unable to update the integration');
-            }
-        });
+        if(field_validator() === true) {
+            var dishId = $('#assetId').text();
+            $('#form-update').ajaxSubmit({
+                success:function(){
+                    var options=obtainFormMeta('#form-update');
+                    alert('Integration will be deployed in a moment');
+                    changeDishLifeCycle(dishId);
+                    console.log(options);
+                    window.location=options.redirectUrl;
+                },
+                error:function(){
+                    alert('Unable to update the integration');
+                }
+            });
+        }
+        else {
+            bootbox.alert("Make Sure All the Fields Are Non Empty", function() {
+            });
+        }
     });
 
     $('#test-form-btn').on('click',function(){
@@ -76,6 +82,16 @@ $(function(){
             method: "POST",
             contentType: "text/html; charset=utf-8"
         })
+    }
+
+    var field_validator = function () {
+        var return_val = true;
+        $( ".validating_field" ).each(function() {
+            if ($(this).val() === "") {
+                return_val = false;
+            }
+        });
+        return return_val;
     }
 
 });
