@@ -6,10 +6,6 @@ var render = function(theme, data, meta, require) {
             context: data
         }],
         ribbon: [{
-            partial: 'ribbon',
-            context: data
-        }],
-        leftnav: [{
             partial:'left-nav',
             context:data
         }],

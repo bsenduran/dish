@@ -15,14 +15,16 @@
         <input id="connLen" type="text" value="{{assets.tables.2.fields.connectorname.value.length}}" style="visibility: hidden" />
 
         <!-- Bottom Nav-bar -->
-    <ul class="ctrl-paging">
-        <li class="previous">
-            <a  class="btn-pag" href="/publisher/asts/dish/set_ingredients/{{assets.id}}">&larr; Previous</a>
-        </li>
-        <li class="next">
-            <a  class="btn-pag" id="add-form-btn">Next &rarr;</a>
-        </li>
-    </ul>
+        <nav>
+            <ul class="pager well well-sm">
+                <li class="previous">
+                    <a href="/publisher/asts/dish/set_ingredients/{{assets.id}}"><span aria-hidden="true">&larr;</span> Previous</a>
+                </li>
+                <li class="next">
+                    <a href="#" id="add-form-btn" >Next <span aria-hidden="true">&rarr;</span></a>
+                </li>
+            </ul>
+        </nav>
 
 
 

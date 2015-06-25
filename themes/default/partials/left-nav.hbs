@@ -1,32 +1,26 @@
+<h3 class="h-left-nav-title">Configuring Integration</h3>
 
-    <h3 class="h-left-nav-title">Configuring Integration</h3>
-    <!--div class="hr-sep-2">&nbsp;</div-->
-	
+<!-- secondary header - app bar -->
 
-	
-    <ul class="nav nav-list ctrl-step-wiz">
-	
-	
-	
-           <!-- <li class="active prominent-link"><a href="/publisher/">Browse All</a></li>
-            <li class="active prominent-link"><a href="#">Add</a></li>
-            <li><a href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>{{t "Add "}}{{shortName}}</a></li>
-            <li><a href="#"><i class="icon-dashboard"></i>Statistics</a></li>
-            <li><a href="#"><i class="icon-gift"></i>Wishlist</a></li>-->
-			
-		
-		
-		
-        {{#each leftNav}}
-            <li class="{{this.additionalClasses}}">
-				<a href='{{url ""}}{{this.url}}' style="background:#f5f5f5; padding:0; border-radius:4px">
-					<span style="background:#333; display:inline-block; border-radius:4px"><i style="width:50px; height:50px; border-radius:4px" class="{{this.iconClass}}"><span style="display:block; border:0px solid #ff0000; width:210px; padding:17px 0px 0px 60px; font-style:normal;">{{this.name}}</span></i></span>
-					
-				</a>
-			</li>
-        {{/each}}
-    </ul>
+<nav class="navbar navbar-default navbar-themed">
+    <div>
 
-    <!--div class="hr-sep">&nbsp;</div>
+        <div id="navbar" class="navbar-collapse collapse">
 
-    <div class="left-nav-tip"><span><strong>TIP:</strong> Sample descriptive text to guide the user through the wizard process</span></div-->
+            <div class="wr-action-btn-bar">
+                <ul class="nav navbar-nav">
+
+                    {{#each leftNav}}
+                        <li>
+                            <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">
+                                <i style="width:50px; height:50px; border-radius:4px" class="{{this.iconClass}}">&nbsp;</i>{{this.name}}
+                            </a>
+                        </li>
+                    {{/each}}
+
+                </ul>
+            </div>
+
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>

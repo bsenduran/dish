@@ -6,12 +6,8 @@ var render = function(theme, data, meta, require) {
             context: data
         }],
         ribbon: [{
-            partial: 'ribbon',
+            partial: 'left-nav',
             context: data
-        }],
-        leftnav: [{
-            partial:'left-nav',
-            context:data
         }],
         listassets: [{
             partial: 'view-asset',

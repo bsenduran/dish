@@ -9,12 +9,6 @@ var render = function (theme, data, meta, require) {
         ],
         ribbon: [
             {
-                partial: 'ribbon',
-                context: data
-            }
-        ],
-        leftnav: [
-            {
                 partial: 'control',
                 context: data
             }
