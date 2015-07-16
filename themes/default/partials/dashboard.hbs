@@ -1,100 +1,62 @@
-<div class="asset-thumb-container">
+<div class="row">
+        
+	<!-- my dishes -->
+	<h3 class="section-head">My Integrations</h3>
 
-            <!-- List dishes -->
-            <!-- my dishes -->
-            <div class="ctrl-my-dishes">
-            <h3>My Integrations</h3>
-
-
-                {{#if assets}}
-
-
-                <div class="row col-md-10">
+    {{#if assets}}
                     {{#each assets}}
-                        <div class="col-sm-4 col-md-2">
-                            <div class="thumbnail">
+                        <div style="width:200px; float:left; margin-right:20px;">
                                 <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}' id='titleText' title="{{this.attributes.overview_name}}"></a>
-                                    <div class="lbl-thumb-asset-img">
-                                        <img src='{{this.attributes.overview_thumbnail}}' alt="...">
-                                    </div>
-                                    <div class="caption">
-                                        <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}'  id='titleText' title="{{this.attributes.overview_name}}">
-                                            <h3 class="ast-name">
-                                                <span>
-                                                        <script>
-                                                            var str = "{{this.attributes.overview_displayname}}";
-                                                            if(str.length>30)
-                                                            {
-                                                                str = str.substring(0, 40) + '...';
-                                                            }
-                                                            else{
-                                                                str += '<br/>';
-                                                            }
-                                                            document.write(str);
-                                                        </script>
-
-                                                </span>
-                                            </h3>
-                                        </a>
-
-                                        <span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}</small></span>
-
-                                    </div>
-                            </div>
+                                <div class="lbl-thumb-asset-img">
+                                    <img src='{{this.attributes.overview_thumbnail}}' alt="...">
+                                </div>
+                                <div>
+                                    <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}'  id='titleText' title="{{this.attributes.overview_name}}">
+                                        <h3 class="ast-name">
+                                            <span>
+                                                <script>
+                                                var str = "{{this.attributes.overview_displayname}}";
+                                                if(str.length>30)
+                                                {
+                                                    str = str.substring(0, 40) + '...';
+                                                }
+                                                else{
+                                                    str += '<br/>';
+                                                }
+                                                    document.write(str);
+                                                </script>
+                                            </span>
+                                        </h3>
+									</a>
+								</div>
+								<span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}</small></span>
                         </div>
                     {{/each}}
-				</ul>
-                {{else}}
-                    <div class="no-dishes">
-                        <p>You have no integrations in your Dashboard. Create your own dish by going to the <a href="/publisher/../store/t/carbon.super">Integration Template store</a> and selecting a template.</p>
+				
+    {{else}}
+        <div class="no-dishes">
+            <p>You have no integrations in your Dashboard. Create your own dish by going to the <a href="/publisher/../store/t/carbon.super">Integration Template store</a> and selecting a template.</p>
+		</div>
+	{{/if}}
+	<!-- my dishes -->
+		
+	<br style="clear:both"/>
 
-                    </div>
-                </div>
-                {{/if}}
+    <!-- Listing connections -->
 
-            <!-- my dishes -->
-<br style="clear:both"/>
+			<h3 class="section-head">My Connections</h3>
 
-            <div class="hr-sep-2"></div>
+			{{#if connectionAssets}}
+				{{#each connectionAssets}}
+						<div class="ctrl-my-connections">
+							<a href='{{url ""}}/asts/connection/details/{{this.id}}' id='titleText' title="{{this.attributes.overview_displayname}}">
+								<img src="{{this.attributes.overview_thumbnail}}" alt="...">
+							</a>
+						</div>
+				{{/each}}
+			{{/if}}
+        
 
-
-            <!-- Listing connections -->
-            <div class="ctrl-my-connections">
-            <h3>My Connections</h3>
-
-
-
-            {{#if connectionAssets}}
-            <div class="row col-md-12">
-
-                {{#each connectionAssets}}
-
-
-                    <div class="col-sm-2 col-md-1">
-                        <div class="thumbnail">
-                            <a href='{{url ""}}/asts/connection/details/{{this.id}}' id='titleText' title="{{this.attributes.overview_displayname}}">
-                                <img src="{{this.attributes.overview_thumbnail}}" alt="...">
-
-                            </a>
-
-                        </div>
-                    </div>
-                {{/each}}
-
-            </div>
-            {{/if}}
-            </div>
-
-
+		<br style="clear:both"/>
 
 </div>
-</div>
-
-
-
-
-
-
-
-
-

@@ -1,26 +1,54 @@
-<h3 class="h-left-nav-title">Configuring Integration</h3>
-
 <!-- secondary header - app bar -->
-
-<nav class="navbar navbar-default navbar-themed">
-    <div>
-
-        <div id="navbar" class="navbar-collapse collapse">
-
+<div id="nav" class="row wr-app-bar affix-top">
+        <div class="wr-action-container">
             <div class="wr-action-btn-bar">
-                <ul class="nav navbar-nav">
-
-                    {{#each leftNav}}
-                        <li>
-                            <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">
-                                <i style="width:50px; height:50px; border-radius:4px" class="{{this.iconClass}}">&nbsp;</i>{{this.name}}
-                            </a>
-                        </li>
-                    {{/each}}
-
-                </ul>
+                <a class="cu-btn page-title" href="dashboard">
+                    <span class="fw-stack"></span>
+                    Configuring Integration
+                </a><a href='#' class="cu-btn {{this.iconClass}}">
+                    <span class="fw-stack">
+                        <i class="fw fw-ring fw-stack-2x"></i>
+                        <i class="fw fw-cancel fw-stack-1x"></i>
+                    </span>
+                    Cancel
+                </a>				
             </div>
-
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
-</nav>
+</div>
+
+
+<!--
+
+	<div class="row wr-wizard">
+		<div class="col-md-3 col-xs-3">
+			<div class="itm-wiz itm-wiz-current"><div class="wiz-no">1</div><div class="wiz-lbl hidden-xs"><span>Download and Install Agent</span></div></div>
+			<br class="c-both" />
+		</div>
+		<div class="col-md-3 col-xs-3">
+			<a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="xcu-btn {{this.iconClass}}"><div class="itm-wiz"><div class="wiz-no">2</div><div class="wiz-lbl hidden-xs"><span>{{this.name}}</span></div></div></a>
+			<br class="c-both" />
+		</div>
+		<div class="col-md-3 col-xs-3">
+			<div class="itm-wiz"><div class="wiz-no">3</div><div class="wiz-lbl hidden-xs"><span>Login to Mobile Device Manager</span></div></div>
+			<br class="c-both" />
+		</div>
+		<div class="col-md-3 col-xs-3">
+			<div class="itm-wiz"><div class="wiz-no">4</div><div class="wiz-lbl hidden-xs"><span>Complete MDM Registration</span></div></div>
+			<br class="c-both" />
+		</div>		
+	</div>
+
+-->
+				<div class="container">
+					<div class="row wr-wizard">
+                    {{#each leftNav}}
+                        <div class="col-md-3 col-xs-3">
+                            <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="xcu-btn {{this.iconClass}}"><div class="itm-wiz"><div class="wiz-no">1</div><div class="wiz-lbl hidden-xs"><span>{{this.name}}</span></div></div></a>
+                                <!--i style="width:50px; height:50px; border-radius:4px" class="{{this.iconClass}}">&nbsp;</i>{{this.name}} -->
+                          
+                        </div>
+                    {{/each}}
+					</div>
+				</div>
+               

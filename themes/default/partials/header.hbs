@@ -1,32 +1,15 @@
 <!-- header -->
 <header>
     <div class="row wr-global-header">
-        <div class="col-sm-9 app-logo">
+        <div class="col-sm-5 app-logo">
             <a href='{{url ""}}{{meta.landingPage}}'>
                 <img src="{{url "/themes/default/img/logo.png"}}" />
                 <h2 class="app-title">Integration Cloud</h2>
             </a>
         </div>
 
-        <div class="col-sm-1">
-            <a href="{{url ""}}/../store/t/{{tenentDomainInfo}}">
-                <div class="auth-img">
-                    {{t "My Store"}}
-                    <i class="fa fa-shopping-cart">&nbsp;</i>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-sm-1">
-            <a href="{{url "/asts/dish/dashboard"}}">
-                <div class="auth-img">
-                    {{t "Dashboard"}}
-                    <i class="fa fa-dashboard">&nbsp;</i>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-sm-1 wr-auth-container">
+        <div class="col-sm-6 pull-right">
+		
             <div class="wr-auth pull-right">
                 <a href="#" data-toggle="dropdown" class="">
                     <div class="auth-img">
@@ -40,6 +23,27 @@
                     </div>
                 </div>
             </div>
+			
+            <a href="{{url ""}}/../store/t/{{tenentDomainInfo}}">
+                <div class="auth-img pull-right">
+                    {{t "My Store"}}
+                    <span class="fw-stack">
+                        <i class="fw fw-ring fw-stack-2x"></i>
+                        <i class="fw fw-store fw-stack-1x"></i>
+                    </span>
+                </div>
+            </a>
+       
+            <a href="{{url "/asts/dish/dashboard"}}">
+                <div class="auth-img pull-right">
+                    {{t "Dashboard"}}
+                    <span class="fw-stack">
+                        <i class="fw fw-ring fw-stack-2x"></i>
+                        <i class="fw fw-computer fw-stack-1x"></i>
+                    </span>
+                </div>
+            </a>
+        
         </div>
     </div>
 </header>

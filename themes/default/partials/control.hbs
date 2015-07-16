@@ -1,45 +1,49 @@
 <!-- secondary header - app bar -->
-
-<nav class="navbar navbar-default navbar-themed">
-    <div>
-
-        <div id="navbar" class="navbar-collapse collapse">
-
+<div id="nav" class="row wr-app-bar affix-top">
+        <div class="wr-action-container">
             <div class="wr-action-btn-bar">
-                <ul class="nav navbar-nav">
-
-
-                    <li>
-                        <a href="/publisher/asts/dish/details/{{assets.id}}" type="button" class="cu-btn {{this.iconClass}}">
-                            <i class="fa fa-cog fa-2x">&nbsp;</i>Configure
-                        </a>
-                    </li>
-                    <li>
-                        {{#if assets.isTaskRunning}}
+                <a class="cu-btn page-title" href="dashboard">
+                    <span class="fw-stack"></span>
+                    Dashboard
+                </a><a id="{{this.id}}" href='/publisher/asts/dish/details/{{assets.id}}' class="cu-btn {{this.iconClass}}">
+						<span class="fw-stack">
+							<i class="fw fw-ring fw-stack-2x"></i>
+							<i class="fw fw-settings fw-stack-1x"></i>
+						</span>
+						Configure
+				</a>{{#if assets.isTaskRunning}}
                             <a class="cu-btn {{this.iconClass}}" id="btn-deactivate"
                                onclick="confirm_deactivate('{{assets.name}}', '{{assets.id}}');">
-                                <i class="fa fa-pause fa-2x">&nbsp;</i>Deactivate
+							<span class="fw-stack">
+								<i class="fw fw-ring fw-stack-2x"></i>
+								<i class="fw fw-block fw-stack-1x"></i>
+							</span>							
+							Deactivate
                             </a>
                         {{else}}
                             <a class="cu-btn {{this.iconClass}}" id="btn-activate"
                                onclick="confirm_activate('{{assets.name}}', '{{assets.id}}');">
-                                <i class="fa fa-play fa-2x">&nbsp;</i>Activate
+								<span class="fw-stack">
+									<i class="fw fw-ring fw-stack-2x"></i>
+									<i class="fw fw-check fw-stack-1x"></i>
+								</span>                               
+							   Activate
                             </a>
                         {{/if}}
-
-                    </li>
-                    <li>
                         <a class="cu-btn {{this.iconClass}}" id="btn-belete" type="button"
                            onclick="confirm_delete('{{assets.name}}', '{{assets.id}}');">
-                            <i class="fa fa-trash-o fa-2x">&nbsp;</i>Delete this Integration
-                        </a>
-                    </li>
-                </ul>
+								<span class="fw-stack">
+									<i class="fw fw-ring fw-stack-2x"></i>
+									<i class="fw fw-delete fw-stack-1x"></i>
+								</span> 
+							Delete this Integration
+                        </a>						
+				
             </div>
-
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
-</nav>
+</div>
+
 
 
 <script>
