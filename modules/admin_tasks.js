@@ -20,7 +20,7 @@ var tasks = {};
 
     }
 //TODO add https
-    var ADMIN_SERVICE_URL = esbServer.host + ":" + esbServer.port + "/services"; // URL to admin services without last '/'
+    var ADMIN_SERVICE_URL = "https://" + esbServer.host + ":" + esbServer.port + "/services"; // URL to admin services without last '/'
     var USERNAME = "admin";
     var PASSWORD = "admin";
 

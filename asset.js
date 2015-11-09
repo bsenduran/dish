@@ -70,10 +70,11 @@ asset.renderer = function (ctx) {
     var buildDefaultLeftNav = function (page, util) {
         var id = page.assets.id;
         var navList = util.navList();
-        navList.push('Overview','icon-step-1',util.buildUrl('details') + '/' + id);
-        navList.push('Prepare Source','icon-step-2',util.buildUrl('set_ingredients') + '/' + id);
-        navList.push('Prepare Destination','icon-step-3',util.buildUrl('set_results') + '/' + id);
-        navList.push('Deploy','icon-step-4',util.buildUrl('deploy') + '/' + id);
+        //changed the second parameter to support the navigation bar with the numbers
+        navList.push('Overview','1',util.buildUrl('details') + '/' + id);
+        navList.push('Prepare Source','2',util.buildUrl('set_ingredients') + '/' + id);
+        navList.push('Prepare Destination','3',util.buildUrl('set_results') + '/' + id);
+        navList.push('Deploy','4',util.buildUrl('deploy') + '/' + id);
         return navList.list();
     };
 

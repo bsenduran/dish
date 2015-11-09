@@ -7,9 +7,9 @@ require('/modules/publisher.js').exec(function (ctx) {
     var ref = require('utils').request;
     var req = ctx.request;
     var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
-    var ACTIVATE_URL = '/{context}/asts/{type}/apis/manage_task/activate';
-    var DEACTIVATE_URL = '/{context}/asts/{type}/apis/manage_task/deactivate';
-    var DELETE_URL = '/{context}/asts/{type}/apis/{pageName}/delete';
+    var ACTIVATE_URL = '/{context}/assets/{type}/apis/manage_task/activate';
+    var DEACTIVATE_URL = '/{context}/assets/{type}/apis/manage_task/deactivate';
+    var DELETE_URL = '/{context}/assets/{type}/apis/{pageName}/delete';
     var options = ref.getQueryOptions(req.getQueryString());
     var asset = require('rxt').asset;
     var assetManager = asset.createUserAssetManager(ctx.session, 'dish');
@@ -20,18 +20,18 @@ require('/modules/publisher.js').exec(function (ctx) {
 
     if (uriMatcher.match(ACTIVATE_URL)) {
         admin_task.resumeTask(options.dishName);
-        response.sendRedirect('/publisher/asts/dish/control_panel/' + options.id);
+        response.sendRedirect('/publisher/assets/dish/control_panel/' + options.id);
 
 
     } else if (uriMatcher.match(DEACTIVATE_URL)) {
         admin_task.pauseTask(options.dishName);
-        response.sendRedirect('/publisher/asts/dish/control_panel/' + options.id);
+        response.sendRedirect('/publisher/assets/dish/control_panel/' + options.id);
 
 
     } else if (uriMatcher.match(DELETE_URL)) {
         admin_task.deleteTaskDescription(options.dishName);
         assetManager.remove(options.id);
-        response.sendRedirect('/publisher/asts/dish/dashboard');
+        response.sendRedirect('/publisher/assets/dish/dashboard');
     }
 
 

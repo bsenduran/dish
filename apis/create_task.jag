@@ -7,7 +7,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     var ui = require('rxt').ui;
     var asset = require('rxt').asset;
     var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
-    var options = uriMatcher.match('/{context}/asts/{type}/apis/{pageName}');
+    var options = uriMatcher.match('/{context}/assets/{type}/apis/{pageName}');
     var query = request.getQueryString();
     var log = new Log();
     var type = options.type;
@@ -86,6 +86,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                     var expressionMappedArray = getTypeAwareExpression(paramValue, typeawareType);
 
                     for (var key in expressionMappedArray) {
+                        log.info("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& " + expressionMappedArray);
                         result+=expressionMappedArray[key]+",";
                     }
                     
@@ -107,7 +108,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                 var found=false;
                 var plain='';
 
-                for(itr=0;itr<paramValue.length;itr++){
+                for(itr=0; itr < paramValue.length; itr++){
                     if(paramValue[itr]==='{'){
                         start=itr;
                         end=-1;
@@ -162,6 +163,8 @@ require('/modules/publisher.js').exec(function (ctx) {
                     var param_names = connectors_param.split(',');
                     var param_values = connector_param_val.split('|');
 
+                    log.info("################### PARAMETER NAMES " + param_names)
+                    log.info("################### PARAMETER VALUES " + param_values)
 
                     for (var j in param_names) {
                         var connDotPar = connectors.trim() + "." + param_names[j].trim();
@@ -321,7 +324,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 //=================================================================================================
 
     if (getParameterByName('test') != 'true') {
-        response.sendRedirect('/publisher/asts/dish/dashboard');
+        response.sendRedirect('/publisher/assets/dish/dashboard');
     } else {
         // Delete the task
         log.info('System clearing created task creted for testing');
@@ -333,6 +336,6 @@ require('/modules/publisher.js').exec(function (ctx) {
         admin_tasks.deleteTaskDescription(dishName);
 
         // Redirects back to deploy page
-        response.sendRedirect('/publisher/asts/dish/deploy/' + assetId);
+        response.sendRedirect('/publisher/assets/dish/deploy/' + assetId);
     }
 }, request, response, session); %>

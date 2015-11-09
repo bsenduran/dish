@@ -2,10 +2,10 @@
 <div id="nav" class="row wr-app-bar affix-top">
         <div class="wr-action-container">
             <div class="wr-action-btn-bar">
-                <a class="cu-btn page-title" href="dashboard">
+                <a class="cu-btn page-title" href="../dashboard">
                     <span class="fw-stack"></span>
                     Dashboard
-                </a><a id="{{this.id}}" href='/publisher/asts/dish/details/{{assets.id}}' class="cu-btn {{this.iconClass}}">
+                </a><a id="{{this.id}}" href='/publisher/assets/dish/details/{{assets.id}}' class="cu-btn {{this.iconClass}}">
 						<span class="fw-stack">
 							<i class="fw fw-ring fw-stack-2x"></i>
 							<i class="fw fw-settings fw-stack-1x"></i>
@@ -52,7 +52,7 @@
 
             if (result) {
                 changeDishLifeCycle(id, 'active');
-                window.location.href = "/publisher/asts/dish/apis/manage_task/activate?dishName=" + name + "&id=" + id;
+                window.location.href = "/publisher/assets/dish/apis/manage_task/activate?dishName=" + name + "&id=" + id;
             }
         });
     };
@@ -62,7 +62,7 @@
 
             if (result) {
                 changeDishLifeCycle(id, 'deactive');
-                window.location.href = "/publisher/asts/dish/apis/manage_task/deactivate?dishName=" + name + "&id=" + id;
+                window.location.href = "/publisher/assets/dish/apis/manage_task/deactivate?dishName=" + name + "&id=" + id;
             }
         });
     };
@@ -71,7 +71,7 @@
         bootbox.confirm("<p class='modal-msg'>Delete this Integration?</p><p style='margin-left:10px; font-size:14px; font-weight:200'>Confirming this will completely wipe out the integration, including the configuration details associated. ", function (result) {
 
             if (result) {
-                window.location.href = "/publisher/asts/dish/apis/manage_task/delete?dishName=" + name + "&id=" + id;
+                window.location.href = "/publisher/assets/dish/apis/manage_task/delete?dishName=" + name + "&id=" + id;
             }
         });
     };

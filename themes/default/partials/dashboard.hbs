@@ -6,12 +6,12 @@
     {{#if assets}}
                     {{#each assets}}
                         <div style="width:200px; float:left; margin-right:20px;">
-                                <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}' id='titleText' title="{{this.attributes.overview_name}}"></a>
+                                <a href='{{url ""}}/assets/{{../rxt/shortName}}/control_panel/{{this.id}}' id='titleText' title="{{this.attributes.overview_name}}"></a>
                                 <div class="lbl-thumb-asset-img">
                                     <img src='{{this.attributes.overview_thumbnail}}' alt="...">
                                 </div>
                                 <div>
-                                    <a href='{{url ""}}/asts/{{../rxt/shortName}}/control_panel/{{this.id}}'  id='titleText' title="{{this.attributes.overview_name}}">
+                                    <a href='{{url ""}}/assets/{{../rxt/shortName}}/control_panel/{{this.id}}'  id='titleText' title="{{this.attributes.overview_name}}">
                                         <h3 class="ast-name">
                                             <span>
                                                 <script>
@@ -49,7 +49,7 @@
 			{{#if connectionAssets}}
 				{{#each connectionAssets}}
 						<div class="ctrl-my-connections">
-							<a href='{{url ""}}/asts/connection/details/{{this.id}}' id='titleText' title="{{this.attributes.overview_displayname}}">
+							<a href='{{url ""}}/assets/connection/details/{{this.id}}' id='titleText' title="{{this.attributes.overview_displayname}}">
 								<img src="{{this.attributes.overview_thumbnail}}" alt="...">
 							</a>
 						</div>

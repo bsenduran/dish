@@ -1,24 +1,26 @@
 <div class="wr-step-indicator">
     <!--h4>Step 1</h4-->
-    <h3>Details</h3>
+    <h2 style="margin-top: -20px">Details</h2>
 </div>
 
-<form class="form-horizontalx" method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/asts/dish/set_ingredients/{{assets.id}}'>
+<form class="form-horizontalx" method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/assets/dish/set_ingredients/{{assets.id}}'>
 
     <!--img src='{{assets.tables.0.fields.banner.value}}' /-->
-    <h2 class="asset-name">{{assets.tables.0.fields.displayname.value}}</h2>
+    <h3 class="asset-name">{{assets.tables.0.fields.displayname.value}}</h3>
     <!--label><strong>{{assets.tables.0.fields.version.value}}</strong></label-->
-    <p>{{assets.tables.0.fields.description.value}}</p>
+    <p>({{assets.tables.0.fields.description.value}})</p>
 
     <div id="rec-div">
 
         <div>
-            <h3 class="h-asset-sec">Source</h3>
+            <h4 class="h-asset-sec" style="margin-top: 30px">Source</h4>
             {{loopingRecipeImages assets.tables.1.fields "ingredients"}}
         </div>
 
+        <hr>
+
         <div>
-            <h3 class="h-asset-sec">Destination</h3>
+            <h4 class="h-asset-sec" style="margin-top: 30px">Destination</h4>
             {{loopingRecipeImages assets.tables.2.fields "results"}}
         </div>
 

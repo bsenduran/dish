@@ -1,12 +1,12 @@
 <div class="wr-step-indicator">
     <!--h4>Step 3</h4-->
-    <h3>Prepare Destination</h3>
+    <h2 style="margin-bottom: 40px; margin-top: -20px">Prepare Destination</h2>
 </div>
 
 
 <div id="rec-div">
 
-    <form method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/asts/dish/deploy/{{assets.id}}'>
+    <form method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/assets/dish/deploy/{{assets.id}}'>
 
     {{loopingRecipeItems assets.tables.2.fields "results"}}
 
@@ -18,7 +18,7 @@
         <nav>
             <ul class="pager well well-sm">
                 <li class="previous">
-                    <a href="/publisher/asts/dish/set_ingredients/{{assets.id}}"><span aria-hidden="true">&larr;</span> Previous</a>
+                    <a href="/publisher/assets/dish/set_ingredients/{{assets.id}}"><span aria-hidden="true">&larr;</span> Previous</a>
                 </li>
                 <li class="next">
                     <a href="#" id="add-form-btn" >Next <span aria-hidden="true">&rarr;</span></a>

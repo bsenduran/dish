@@ -2,10 +2,10 @@
 <div id="nav" class="row wr-app-bar affix-top">
         <div class="wr-action-container">
             <div class="wr-action-btn-bar">
-                <a class="cu-btn page-title" href="dashboard">
+                <a class="cu-btn page-title" href="../control_panel/{{assets.id}}">
                     <span class="fw-stack"></span>
                     Configuring Integration
-                </a><a href='#' class="cu-btn {{this.iconClass}}">
+                </a><a href='../dashboard' class="cu-btn {{this.iconClass}}">
                     <span class="fw-stack">
                         <i class="fw fw-ring fw-stack-2x"></i>
                         <i class="fw fw-cancel fw-stack-1x"></i>
@@ -44,7 +44,8 @@
 					<div class="row wr-wizard">
                     {{#each leftNav}}
                         <div class="col-md-3 col-xs-3">
-                            <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="xcu-btn {{this.iconClass}}"><div class="itm-wiz"><div class="wiz-no">1</div><div class="wiz-lbl hidden-xs"><span>{{this.name}}</span></div></div></a>
+						<!-- Previous default value 1 for  <div class="wiz-no"> replaced with {{this.iconClass}} since icon class value populated with the dynamic number (Change also) -->
+                            <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="xcu-btn {{this.iconClass}}"><div class="itm-wiz"><div class="wiz-no">{{this.iconClass}}</div><div class="wiz-lbl hidden-xs"><span>{{this.name}}</span></div></div></a>
                                 <!--i style="width:50px; height:50px; border-radius:4px" class="{{this.iconClass}}">&nbsp;</i>{{this.name}} -->
                           
                         </div>

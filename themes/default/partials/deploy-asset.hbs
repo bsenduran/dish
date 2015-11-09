@@ -1,74 +1,80 @@
-<div class="wr-step-indicator">
-    <!--h4>Step 5</h4-->
-    <h3>Let's Make This Happen!</h3>
-</div>
+<div>
+    <div class="wr-step-indicator">
+        <!--h4>Step 5</h4-->
+        <h2 style="margin-top: -20px">Let's Make This Happen!</h2>
+    </div>
 
-<div id="rec-div" class="containerx">
+    <div id="rec-div" class="containerx">
 
+        <div>
+             <form class="form-horizontal" method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/assets/{{assets.type}}/apis/create_task?id={{assets.id}}'>
+                    <div class="control-group" style="margin-top: 20px">
+                        <label class="control-label" for="dishName" style="margin-bottom: 10px">Integration Name</label>
+                        <div class="controls">
+                            <input type="text" class="custom-input-field" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}} " class="validating_field" style="width: 300px">
+                        </div>
+                        <input type="hidden" name="overview_name" class="custom-input-field" value="{{assets.name}}"/>
+                    </div>
+                    <div class="control-group" style="margin-top: 20px">
+                        <label class="control-label" for="triggerInterval" style="margin-bottom: 10px">Invocation Delay (in sec)</label>
+                        <div class="controls">
+                            <input type="text" class="custom-input-field" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval" class="validating_field" style="width: 300px">
+                        </div>
+                    </div>
+                    <div class="control-group" style="margin-top: 20px">
+                     <label class="control-label" for="triggerCount" style="margin-bottom: 10px">Times To Trigger</label>
+                     <div class="controls">
+                         <input type="text" class="custom-input-field" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount" class="validating_field" style="width: 300px">
+                     </div>
+                    </div>
+                    <div class="control-group" style="margin-top: 20px">
+                        <!--<div class="controls">-->
+                            <input type="checkbox" name ="" id="triggerForever">
+                        <!--</div>-->
 
- <form class="form-horizontal" method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type=dish' id="form-update" data-redirect-url='{{url ""}}/asts/{{assets.type}}/apis/create_task?id={{assets.id}}'>
-        <div class="control-group">
-            <label class="control-label" for="dishName">Integration Name</label>
-            <div class="controls">
-                <input type="text" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}} " class="validating_field">
-            </div>
-            <input type="hidden" name="overview_name" value="{{assets.name}}"/>
+                        <label class="control-label" for="triggerForever" style="margin-bottom: 10px; margin-left: 25px">Continue For Ever</label>
+                    </div>
+                    <div class="control-group" style="margin-top: 20px">
+                        <div class="controls">
+                            {{#if assets.isTaskExist}}
+                                    <button type="button" class="btn-deploy btn-success btn-md btn pull-left" id="add-form-btn">Restart This</button>
+                            {{else}}
+                                    <button type="button" class="btn-deploy btn-success btn-md btn pull-left" id="add-form-btn">Start This</button>
+                            {{/if}}
+                        </div>
+                        <div id="assetId" style="display: none">{{assets.id}}</div>
+                    </div>
+                    <!-- Test Button -->
+                    <div class="control-group" style="margin-top: 20px">
+                        <div class="controls">
+                            <button type="button" class="btn-deploy btn-primary btn-md btn pull-left" id="test-form-btn" style="margin-left: 100px">Test This</button>
+                        </div>
+                    </div>
+             </form>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="triggerInterval">Invocation Delay (in sec)</label>
-            <div class="controls">
-                <input type="text" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval" class="validating_field">
-            </div>
-        </div>
-        <div class="control-group">
-         <label class="control-label" for="triggerCount">Times To Trigger</label>
-         <div class="controls">
-             <input type="text" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount" class="validating_field">
-         </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="triggerForever">Continue For Ever</label>
-            <div class="controls">
-                <input type="checkbox" name ="" id="triggerForever">
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                {{#if assets.isTaskExist}}
-                        <button type="button" class="btn-deploy" id="add-form-btn">Restart This</button>
-                {{else}}
-                        <button type="button" class="btn-deploy" id="add-form-btn">Start This</button>
-                {{/if}}
-            </div>
-            <div id="assetId" style="display: none">{{assets.id}}</div>
-        </div>
-        <!-- Test Button -->
-        <div class="control-group">
-            <div class="controls">
-                <button type="button" class="btn-deploy" id="test-form-btn">Test This</button>
-            </div>
-        </div>
-    </form>
 
 
-    <!-- Bottom Nav-bar -->
-    <nav>
-        <ul class="pager well well-sm">
-            <li class="previous">
-                <a href="/publisher/asts/dish/set_results/{{assets.id}}"><span aria-hidden="true">&larr;</span> Previous</a>
-            </li>
-        </ul>
-    </nav>
+        <!-- Bottom Nav-bar -->
+        <div style="margin-top: 150px">
+            <nav>
+                <ul class="pager well well-sm">
+                    <li class="previous">
+                        <a href="/publisher/assets/dish/set_results/{{assets.id}}"><span aria-hidden="true">&larr;</span> Previous</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-    <script>
-        var leftPaneItem = document.querySelectorAll("ul.nav-list li")[4];
-		var leftPaneItemA = document.querySelectorAll("ul.nav-list li a")[4];
-        leftPaneItemA.style.backgroundColor="#333333";
-        leftPaneItem.style.borderRadius="0px";
-        leftPaneItem.style.border="0px solid #e4e4e4";
-		leftPaneItemA.style.color="white";
-    </script>
+        <script>
+            var leftPaneItem = document.querySelectorAll("ul.nav-list li")[4];
+            var leftPaneItemA = document.querySelectorAll("ul.nav-list li a")[4];
+            leftPaneItemA.style.backgroundColor="#333333";
+            leftPaneItem.style.borderRadius="0px";
+            leftPaneItem.style.border="0px solid #e4e4e4";
+            leftPaneItemA.style.color="white";
+        </script>
 
+    </div>
 </div>
 
 
