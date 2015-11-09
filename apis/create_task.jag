@@ -86,7 +86,6 @@ require('/modules/publisher.js').exec(function (ctx) {
                     var expressionMappedArray = getTypeAwareExpression(paramValue, typeawareType);
 
                     for (var key in expressionMappedArray) {
-                        log.info("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& " + expressionMappedArray);
                         result+=expressionMappedArray[key]+",";
                     }
                     
@@ -162,9 +161,6 @@ require('/modules/publisher.js').exec(function (ctx) {
                 else {
                     var param_names = connectors_param.split(',');
                     var param_values = connector_param_val.split('|');
-
-                    log.info("################### PARAMETER NAMES " + param_names)
-                    log.info("################### PARAMETER VALUES " + param_values)
 
                     for (var j in param_names) {
                         var connDotPar = connectors.trim() + "." + param_names[j].trim();
