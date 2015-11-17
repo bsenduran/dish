@@ -27,8 +27,10 @@ require('/modules/publisher.js').exec(function (ctx) {
             var output = am.render(assets, page).details();
 
             var isRunning = admin_task.isTaskRunning(output.assets.name);
+            var isNTaskExist = admin_task.isNTaskExist(output.assets.name);
             //print(assets);
             output.assets.isTaskRunning = (isRunning == true);
+            output.assets.isNTaskExist = (isNTaskExist == true);
             //print(output);
             caramel.render(output);
 

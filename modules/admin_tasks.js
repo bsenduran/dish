@@ -118,9 +118,17 @@ var tasks = {};
             // Send task.xml
             req.send('<ns1:addTaskDescription xmlns:ns1="http://org.apache.axis2/xsd">' + xmlTaskData + '</ns1:addTaskDescription>');
 
-            req.close();
+            var result = req;
 
+            var response = result.responseXML;
 
+            //req.close();
+
+            var successFullyDeployed = response..*::['return'].text();
+
+            log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ " + successFullyDeployed + " $$$$$$$$$$$$$$$$$$$$$$$");
+
+            return successFullyDeployed;
         } catch (e) {
 
 // 		print(e.toString()); // Though deploying task is completed, still returns an error
@@ -157,6 +165,31 @@ var tasks = {};
 
     };
 
+    admin_task.isNTaskExist = function (task_name) {
+        var isDeactivated = false;
+
+        options.action = "urn:isESBTaskExist";
+
+        var payload = '<adm:isESBTaskExist xmlns:adm="http://admin.core.ntaskint.carbon.wso2.org">' +
+            '<adm:taskName>' + task_name + '</adm:taskName>' +
+            '</adm:isESBTaskExist>';
+
+        try {
+            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false);
+            req.send(payload);
+
+            var result = req;
+            var response = result.responseXML;
+            isDeactivated = response..*::['return'].text();
+
+        }
+        catch (e) {
+            log.error(e)
+        }
+
+        return isDeactivated;
+    };
+
     admin_task.pauseTask = function(task_name) {
 
         var response;
@@ -191,27 +224,32 @@ var tasks = {};
     admin_task.resumeTask = function(task_name) {
 
         var response;
+        var isNTaskExist = admin_task.isNTaskExist(task_name);
 
-        options.action = "urn:resumeESBTask";
-
-
-        var payload = '<adm:resumeESBTask xmlns:adm="http://admin.core.ntaskint.carbon.wso2.org">' +
-            '<adm:name>' + task_name + '</adm:name>' +
-            '</adm:resumeESBTask>';
-
-        try {
-            req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false);
-            req.send(payload);
+        if (isNTaskExist == "false") {
+            response = "DOES_NOT_EXIST";
+        } else {
+            options.action = "urn:resumeESBTask";
 
 
-            var result = req;
-            var xmlResponse = result.responseXML;
-            response = xmlResponse..*::['return'].text();
+            var payload = '<adm:resumeESBTask xmlns:adm="http://admin.core.ntaskint.carbon.wso2.org">' +
+                '<adm:name>' + task_name + '</adm:name>' +
+                '</adm:resumeESBTask>';
+
+            try {
+                req.open(options, ADMIN_SERVICE_URL + "/ESBNTaskAdmin", false);
+                req.send(payload);
 
 
-        }
-        catch (e) {
-            log.error(e)
+                var result = req;
+                var xmlResponse = result.responseXML;
+                response = xmlResponse..*::['return'].text();
+
+
+            }
+            catch (e) {
+                log.error(e)
+            }
         }
 
         return response;

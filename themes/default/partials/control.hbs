@@ -11,7 +11,8 @@
 							<i class="fw fw-settings fw-stack-1x"></i>
 						</span>
 						Configure
-				</a>{{#if assets.isTaskRunning}}
+				</a>
+                {{#if assets.isTaskRunning}}
                             <a class="cu-btn {{this.iconClass}}" id="btn-deactivate"
                                onclick="confirm_deactivate('{{assets.name}}', '{{assets.id}}');">
 							<span class="fw-stack">
@@ -21,14 +22,17 @@
 							Deactivate
                             </a>
                         {{else}}
-                            <a class="cu-btn {{this.iconClass}}" id="btn-activate"
-                               onclick="confirm_activate('{{assets.name}}', '{{assets.id}}');">
+                            {{#if assets.isNTaskExist}}
+                                <a class="cu-btn {{this.iconClass}}" id="btn-activate"
+                                   onclick="confirm_activate('{{assets.name}}', '{{assets.id}}');">
 								<span class="fw-stack">
 									<i class="fw fw-ring fw-stack-2x"></i>
 									<i class="fw fw-check fw-stack-1x"></i>
-								</span>                               
-							   Activate
-                            </a>
+								</span>
+                                    Activate
+                                </a>
+                            {{else}}
+                            {{/if}}
                         {{/if}}
                         <a class="cu-btn {{this.iconClass}}" id="btn-belete" type="button"
                            onclick="confirm_delete('{{assets.name}}', '{{assets.id}}');">
