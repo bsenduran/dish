@@ -27,27 +27,32 @@ $(function(){
 
     $('#test-form-btn').on('click',function(){
 
-        var overviewName = $('#form-update').find('input[name="overview_name"]').val();
-        var overviewTriggerCount = $('#form-update').find('input[name="overview_triggercount"]').val();
+        if(field_validator() === true) {
+            var overviewName = $('#form-update').find('input[name="overview_name"]').val();
+            var overviewTriggerCount = $('#form-update').find('input[name="overview_triggercount"]').val();
 
-        // Setting temporary values
-        $('#form-update').find('input[name="overview_triggercount"]').val('1');
+            // Setting temporary values
+            $('#form-update').find('input[name="overview_triggercount"]').val('1');
 
-        // Submit to save in ES
-        $('#form-update').ajaxSubmit({
-             success:function(){
+            // Submit to save in ES
+            $('#form-update').ajaxSubmit({
+                success:function(){
 
-                 // Sending to ESB
-                 var options=obtainFormMeta('#form-update');
+                    // Sending to ESB
+                    var options=obtainFormMeta('#form-update');
 
-                 window.location=options.redirectUrl + "&test=true" + "&dishName=" + overviewName;
+                    window.location=options.redirectUrl + "&test=true" + "&dishName=" + overviewName;
 
-                 alert('Integration testing is completed');
-             },
-             error:function(){
-                 alert('Unable to test the integration');
-             }
-        });
+                    alert('Integration testing is completed');
+                },
+                error:function(){
+                    alert('Unable to test the integration');
+                }
+            });
+        } else {
+            bootbox.alert("Make Sure All the Fields Are Non Empty", function() {
+            });
+        }
 
         // Resetting to previous values
         $('#form-update').find('input[name="overview_triggercount"]').val(overviewTriggerCount);

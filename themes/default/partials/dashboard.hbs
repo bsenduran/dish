@@ -29,7 +29,13 @@
                                         </h3>
 									</a>
 								</div>
-								<span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}</small></span>
+
+                            {{#ifCondition this.lifecycleState "Active"}}
+                                <span class="lifecycle-state" style="color: black"><img src="/publisher/extensions/assets/dish/themes/default/img/green_active.jpg" width="23px" height="23px" style="margin-right: 10px"><medium><i class="icon-circle lc-state-{{this.lifecycleState}}"></i>{{this.lifecycleState}}</medium></span>
+                            {{else}}
+                                <span class="lifecycle-state" style="color: black"><img src="/publisher/extensions/assets/dish/themes/default/img/red_deactivate.png" width="20px" height="20px" style="margin-right: 10px"><medium><i class="icon-circle lc-state-{{this.lifecycleState}}"></i>{{this.lifecycleState}}</medium></span>
+                            {{/ifCondition}}
+
                         </div>
                     {{/each}}
 				

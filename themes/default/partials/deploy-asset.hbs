@@ -11,20 +11,20 @@
                     <div class="control-group" style="margin-top: 20px">
                         <label class="control-label" for="dishName" style="margin-bottom: 10px">Integration Name</label>
                         <div class="controls">
-                            <input type="text" class="custom-input-field" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}} " class="validating_field" style="width: 300px">
+                            <input type="text" class="custom-input-field validating_field" id="dishName" name="overview_displayname" value="{{assets.tables.0.fields.displayname.value}} " class="validating_field" style="width: 300px">
                         </div>
-                        <input type="hidden" name="overview_name" class="custom-input-field" value="{{assets.name}}"/>
+                        <input type="hidden" name="overview_name" class="custom-input-field validating_field" value="{{assets.name}}"/>
                     </div>
                     <div class="control-group" style="margin-top: 20px">
                         <label class="control-label" for="triggerInterval" style="margin-bottom: 10px">Invocation Delay (in sec)</label>
                         <div class="controls">
-                            <input type="text" class="custom-input-field" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval" class="validating_field" style="width: 300px">
+                            <input type="text" class="custom-input-field validating_field" name ="overview_triggerinterval" value="{{notnullT assets.tables.0.fields.triggerinterval.value}}" id="triggerInterval" class="validating_field" style="width: 300px">
                         </div>
                     </div>
                     <div class="control-group" style="margin-top: 20px">
                      <label class="control-label" for="triggerCount" style="margin-bottom: 10px">Times To Trigger</label>
                      <div class="controls">
-                         <input type="text" class="custom-input-field" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount" class="validating_field" style="width: 300px">
+                         <input type="text" class="custom-input-field validating_field" name ="overview_triggercount" value="{{notnullT assets.tables.0.fields.triggercount.value}}" id="triggerCount" class="validating_field" style="width: 300px">
                      </div>
                     </div>
                     <div class="control-group" style="margin-top: 20px">
