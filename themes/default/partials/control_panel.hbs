@@ -2,6 +2,17 @@
 
 <div class="wr-asset-summary">
     <div class="asset-image"><img src='{{assets.tables.0.fields.banner.value}}'/></div>
+    <div id="status-icon-row" style="margin-top: 20px;font-size: larger">
+        {{#if assets.isTaskRunning}}
+            <span style="color: black"><img src="/publisher/extensions/assets/dish/themes/default/img/green_active.jpg" width="25px" height="25px" style="margin-right: 20px"> Running</span>
+        {{else}}
+            {{#if assets.isNTaskExist}}
+                <span style="color: black"><img src="/publisher/extensions/assets/dish/themes/default/img/orange_paused.png" width="25px" height="25px" style="margin-right: 20px"> Paused</span>
+            {{else}}
+                <span style="color: black"><img src="/publisher/extensions/assets/dish/themes/default/img/red_deactivate.png" width="25px" height="25px" style="margin-right: 20px"> Terminated</span>
+            {{/if}}
+        {{/if}}
+    </div>
     <h2 class="asset-name">{{assets.tables.0.fields.displayname.value}}</h2>
     <!--label><strong>{{assets.tables.0.fields.version.value}}</strong></label-->
     <p>{{assets.tables.0.fields.description.value}}</p>
@@ -9,6 +20,5 @@
 	
 <div id="rec-div" class="container">
 </div>
-
 </div>
 
